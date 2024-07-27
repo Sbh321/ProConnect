@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\JobListing;
+
+class JobController extends Controller
+{
+    // All jobs
+    public function index()
+    {
+        return view('jobs', [
+            'heading' => 'Jobs',
+            'jobs' => JobListing::all(),
+        ]);
+    }
+
+    // Single job
+    public function show(JobListing $jobListing)
+    {
+        return view('job', [
+            'job' => $jobListing,
+        ]);
+
+    }
+
+}

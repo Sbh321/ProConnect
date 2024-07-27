@@ -1,15 +1,13 @@
 <?php
 
-use App\Models\JobListing;
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
 //All jobs
-Route::get('/', function () {
-    return view('jobs', [
-        'heading' => 'Jobs',
-        'jobs' => JobListing::all(),
-    ]);
-});
+Route::get('/', [JobController::class, 'index']);
+
+//Single job
+Route::get('/jobs/{jobListing}', [JobController::class, 'show']);
 
 //Single job by id
 // Route::get('/jobs/{id}', function ($id) {
@@ -24,11 +22,3 @@ Route::get('/', function () {
 //     }
 
 // });
-
-//Single job by using route model binding in elouquent model
-//we dont have to put abort 404 if job not found it will automatically do that
-Route::get('/jobs/{jobListing}', function (JobListing $jobListing) {
-    return view('job', [
-        'job' => $jobListing,
-    ]);
-});
