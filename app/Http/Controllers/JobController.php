@@ -9,16 +9,15 @@ class JobController extends Controller
     // All jobs
     public function index()
     {
-        return view('jobs', [
-            'heading' => 'Jobs',
-            'jobs' => JobListing::all(),
+        return view('jobs.index', [
+            'jobs' => JobListing::latest()->filter(request(['tag']))->get(),
         ]);
     }
 
     // Single job
     public function show(JobListing $jobListing)
     {
-        return view('job', [
+        return view('jobs.show', [
             'job' => $jobListing,
         ]);
 
