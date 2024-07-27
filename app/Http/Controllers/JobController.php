@@ -10,7 +10,7 @@ class JobController extends Controller
     public function index()
     {
         return view('jobs.index', [
-            'jobs' => JobListing::latest()->filter(request(['tag']))->get(),
+            'jobs' => JobListing::latest()->filter(request(['tag', 'search']))->get(),
         ]);
     }
 
@@ -21,6 +21,12 @@ class JobController extends Controller
             'job' => $jobListing,
         ]);
 
+    }
+
+    // Show the form to create a new job
+    public function create()
+    {
+        return view('jobs.create');
     }
 
 }
