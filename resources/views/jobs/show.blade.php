@@ -6,7 +6,8 @@
     <div class="mx-4">
         <x-card class="p-10">
             <div class="flex flex-col items-center justify-center text-center">
-                <img class="w-48 mr-6 mb-6" src="{{ asset('images/no-image.png') }}" alt="Laravel">
+                <img class="w-48 mr-6 mb-6"
+                    src="{{ $job->logo ? asset('storage/' . $job->logo) : asset('images/no-image.png') }}" alt="Laravel">
 
                 <h3 class="text-2xl mb-2">{{ $job->title }}</h3>
                 <div class="text-xl font-bold mb-4">A{{ $job->company }}</div>

@@ -44,6 +44,10 @@ class JobController extends Controller
             'website' => 'required',
         ]);
 
+        if ($request->hasFile('logo')) {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
         JobListing::create($formFields);
 
         return redirect('/')->with('message', 'Job listing created!');

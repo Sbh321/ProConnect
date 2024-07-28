@@ -7,7 +7,7 @@
             <p class="mb-4">Post a job to find a developer</p>
         </header>
 
-        <form action="/jobs" method="POST">
+        <form action="/jobs" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-6">
                 <label for="company" class="inline-block text-lg mb-2">Company Name</label>
