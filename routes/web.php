@@ -11,3 +11,6 @@ Route::get('/jobs/create', [JobController::class, 'create']);
 
 //Single job
 Route::get('/jobs/{jobListing}', [JobController::class, 'show']);
+
+//Store a new job
+Route::post('/jobs', [JobController::class, 'store']);
