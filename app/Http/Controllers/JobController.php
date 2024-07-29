@@ -48,6 +48,8 @@ class JobController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
+        $formFields['user_id'] = auth()->id();
+
         JobListing::create($formFields);
 
         return redirect('/')->with('message', 'Job listing created!');
@@ -64,6 +66,11 @@ class JobController extends Controller
     // Update a job
     public function update(Request $request, JobListing $jobListing)
     {
+        //Make sure logged in user is the owner of the job
+        if (auth()->id() !== $jobListing->user_id) {
+            abort(403, 'Unauthorized');
+        }
+
         $formFields = $request->validate([
             'title' => 'required',
             'company' => 'required',
@@ -86,8 +93,25 @@ class JobController extends Controller
     // Delete a job
     public function destroy(JobListing $jobListing)
     {
+        //Make sure logged in user is the owner of the job
+        if (auth()->id() !== $jobListing->user_id) {
+            abort(403, 'Unauthorized');
+        }
+
         $jobListing->delete();
 
         return redirect('/')->with('message', 'Job listing deleted!');
     }
+
+// Manage Jobs
+    public function manage()
+    {
+        $user = auth()->user();
+        $jobs = $user->jobListing;
+
+        return view('jobs.manage', [
+            'jobs' => $jobs,
+        ]);
+    }
+
 }

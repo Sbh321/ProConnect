@@ -10,6 +10,9 @@ Route::get('/', [JobController::class, 'index']);
 //Show the form to create a new job
 Route::get('/jobs/create', [JobController::class, 'create'])->middleware('auth');
 
+//Manage Jobs
+Route::get('/jobs/manage', [JobController::class, 'manage'])->middleware('auth');
+
 //Store a new job
 Route::post('/jobs', [JobController::class, 'store'])->middleware('auth');
 
