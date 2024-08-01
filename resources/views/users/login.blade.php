@@ -34,7 +34,7 @@
             </div>
 
             <div class="mb-6">
-                <button type="submit" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">
+                <button type="submit" class="bg-blue-500 text-white rounded py-2 px-4 hover:bg-black">
                     Sign In
                 </button>
             </div>
@@ -42,7 +42,7 @@
             <div class="mt-8">
                 <p>
                     Dont's have an account?
-                    <a href="/register" class="text-laravel">Register</a>
+                    <a href="/register" class="text-blue-500l">Register</a>
                 </p>
             </div>
         </form>

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css" />
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -23,36 +24,47 @@
         };
     </script>
     <title>ProConnect | Find Developer Jobs & Projects</title>
+    <style>
+        .scrollable {
+            max-height: calc(100vh - 6rem);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scrollable::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-blueGray-200">
     <nav class="flex justify-between items-center mb-4">
-        <a href="/"><img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo" /></a>
+        <a href="/"><img class="w-24 ml-6 p-2" src="{{ asset('images/logo.png') }}" alt=""
+                class="logo" /></a>
         <ul class="flex space-x-6 mr-6 text-lg">
             @auth
-
-
                 <li>
                     <span class="font-bold uppercase">
                         Welcome {{ auth()->user()->name }}
                     </span>
                 </li>
                 <li>
-                    <a href="/jobs/manage" class="hover:text-laravel"><i class="fa-solid fa-gear"></i>
+                    <a href="/jobs/manage" class="hover:text-blue-500"><i class="fa-solid fa-gear"></i>
                         Manage Listings</a>
                 </li>
                 <li>
                     <form action="/logout" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="hover:text-laravel"><i class="fa-solid fa-door-closed"></i>
+                        <button type="submit" class="hover:text-blue-500"><i class="fa-solid fa-door-closed"></i>
                             Logout</button>
                     </form>
                 @else
                 <li>
-                    <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>
+                    <a href="/register" class="hover:text-blue-500"><i class="fa-solid fa-user-plus"></i> Register</a>
                 </li>
                 <li>
-                    <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <a href="/login" class="hover:text-blue-500"><i class="fa-solid fa-arrow-right-to-bracket"></i>
                         Login</a>
                 </li>
             @endauth
@@ -63,12 +75,14 @@
         {{ $slot }}
     </main>
 
-    <footer
-        class="relative bottom-0 left-0 w-full flex items-center justify-start font-bold bg-blue-400 text-white h-24 mt-24 opacity-90 md:justify-center">
-        <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
+    @if (!isset($showFooter) || $showFooter)
+        <footer
+            class="relative bottom-0 left-0 w-full flex items-center justify-start font-bold bg-blue-400 text-white h-24 mt-24 opacity-90 md:justify-center">
+            <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
 
-        <a href="/jobs/create" class="absolute top-1/3 right-10 bg-black text-white py-2 px-5">Post Job</a>
-    </footer>
+            <a href="/jobs/create" class="absolute top-1/3 right-10 bg-black text-white py-2 px-5">Post Job</a>
+        </footer>
+    @endif
 
     <x-flash-message />
 </body>

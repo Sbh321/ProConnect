@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+//Home page
+Route::get('/', [PostController::class, 'index']);
+
 //All jobs
-Route::get('/', [JobController::class, 'index']);
+Route::get('/jobs', [JobController::class, 'index']);
 
 //Show the form to create a new job
 Route::get('/jobs/create', [JobController::class, 'create'])->middleware('auth');
@@ -42,3 +46,6 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 
 // Log the user in
 Route::post('/users/auth', [UserController::class, 'auth']);
+
+// Single user profile
+Route::get('/users/profile', [UserController::class, 'show'])->middleware('auth');
