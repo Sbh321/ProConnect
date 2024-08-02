@@ -86,11 +86,7 @@
 
     <x-flash-message />
 
-    {{-- <script>
-        window.onload = function() {
-            window.scrollTo(0, 0);
-        };
-    </script> --}}
+    <script></script>
 </body>
 
 </html>

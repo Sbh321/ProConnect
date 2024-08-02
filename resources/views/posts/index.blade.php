@@ -8,7 +8,8 @@
 
             <!-- Middle Section (Post Feed) -->
             <div x-data="{ scrollToTop() { this.$refs.scrollableContainer.scrollTop = 0 } }" x-init="scrollToTop" x-ref="scrollableContainer"
-                class="w-full lg:w-1/2 px-4 scrollable ">
+                class="w-full lg:w-1/2 px-4 scrollable" id="post-container">
+
                 @auth
                     <div class="bg-white p-4 rounded-lg shadow-xl mb-4">
                         <div class="flex items-center my-2">
@@ -52,6 +53,11 @@
                 @else
                     <p>No Posts</p>
                 @endif
+
+                <!-- Loading More Posts -->
+                <div id="load-more"></div>
+
+                <x-loader-card />
             </div>
 
             <!-- Right Section -->
@@ -61,4 +67,31 @@
         </div>
     </div>
 
+    <script>
+        let skip = {{ $posts->count() }};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollableContainer = document.querySelector('#post-container');
+
+            scrollableContainer.addEventListener('scroll', function() {
+                if (scrollableContainer.scrollTop + scrollableContainer.clientHeight >= scrollableContainer
+                    .scrollHeight) {
+                    loadMorePosts();
+                }
+            });
+        });
+
+        function loadMorePosts() {
+            fetch(`{{ route('posts.loadMore') }}?skip=${skip}`, {
+                    method: 'GET',
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('load-more').insertAdjacentHTML('beforebegin', data);
+                    skip += 5;
+                    console.log(skip);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
 </x-layout>

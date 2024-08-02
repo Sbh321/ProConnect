@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         );
 
         //seeding post table using factory
-        Post::factory(50)->create([
+        Post::factory(15)->create([
             'user_id' => $user->id,
         ]);
 

@@ -12,7 +12,26 @@ class PostController extends Controller
     {
         return view('posts.index', [
             'showFooter' => false,
-            'posts' => Post::orderBy('created_at', 'desc')->get(),
+            'posts' => Post::orderBy('created_at', 'desc')->take(5)->get(),
+        ]);
+    }
+
+    // Load more posts
+    public function loadMorePosts(Request $request)
+    {
+        // if ($request->ajax()) {
+        //     $posts = Post::orderBy('created_at', 'desc')
+        //         ->skip($request->skip)
+        //         ->take(10)
+        //         ->get();
+
+        //     return view('posts.post-list', compact('posts'))->render();
+        // }
+        return view('posts.post-list', [
+            'posts' => Post::orderBy('created_at', 'desc')
+                ->skip($request->skip)
+                ->take(5)
+                ->get(),
         ]);
     }
 
@@ -75,4 +94,5 @@ class PostController extends Controller
             return response()->json(['status' => 'saved']);
         }
     }
+
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 //Home page
 Route::get('/', [PostController::class, 'index']);
+Route::get('/posts/load-more', [PostController::class, 'loadMorePosts'])->name('posts.loadMore');
 
 //Show the form to create a new post
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
