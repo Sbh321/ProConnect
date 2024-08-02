@@ -1,17 +1,29 @@
 @props(['post'])
 
+@php
+    $isStarred = $post->stars()->where('user_id', auth()->id())->exists();
+    $isSaved = $post->saves()->where('user_id', auth()->id())->exists();
+@endphp
+
 <div class="bg-white p-4 rounded-lg shadow-xl mb-4">
+    <!-- Post Header and Content -->
     <div class="flex items-center mb-4">
         <img src="{{ $post->user->image ? asset('storage/' . $post->user->image) : asset('images/no-profile.jpg') }}"
             alt="image" class="rounded-full mr-2 w-10">
         <div>
             <h2 class="text-lg font-semibold">{{ $post->user->name }}</h2>
-            <p class="text-gray-500 text-sm">5h</p>
+            <p class="text-gray-500 text-sm">{{ $post->created_at->diffForHumans() }}</p>
         </div>
     </div>
-    <p class="mb-4">
+
+    <p class="{{ empty($post->hashtags) ? 'mb-4' : 'mb-2' }}">
         {{ $post->status }}
     </p>
+
+    @if (!empty($post->hashtags))
+        <x-post-tags :hashtagsCsv="$post->hashtags" />
+    @endif
+
     <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('images/no-post-image.jpg') }}" alt="Post Image"
         class="rounded-lg mb-4 w-full object-cover" />
     <div class="flex justify-between text-gray-500 text-sm">
@@ -25,7 +37,20 @@
                 </g>
             </svg>
 
-            <span>14K</span>
+            @php
+                $starCount = $post->stars()->count();
+                if ($starCount >= 1000000) {
+                    $starCountFormatted = round($starCount / 1000000, 1) . 'M';
+                } elseif ($starCount >= 1000) {
+                    $starCountFormatted = round($starCount / 1000, 1) . 'K';
+                } else {
+                    $starCountFormatted = $starCount;
+                }
+            @endphp
+
+            <span>
+                {{ $starCountFormatted }} {{ $starCount == 1 ? 'Star' : 'Stars' }}
+            </span>
         </div>
         <div>
             <span class="">667 comments</span>
@@ -33,17 +58,69 @@
     </div>
     <hr class="my-2" />
     <div class="flex justify-between text-gray-500 text-sm">
-        <button class="flex items-center hover:text-blue-500">
-            <i class="fa-regular fa-star mr-2"></i>
-            <span>Star</span>
+        <button class="flex items-center hover:text-blue-500 focus:outline-none w-24"
+            onclick="toggleStar({{ $post->id }}, this)">
+            <i class="{{ $isStarred ? 'fa-solid fa-star' : 'fa-regular fa-star' }} mr-2"></i>
+            <span>{{ $isStarred ? 'Unstar' : 'Star' }}</span>
         </button>
-        <button class="flex items-center hover:text-blue-500">
+        <button class="flex items-center hover:text-blue-500 focus:outline-none w-24">
             <i class="fa-regular fa-comments mr-2"></i>
             <span>Comment</span>
         </button>
-        <button class="flex items-center hover:text-blue-500">
-            <i class="fa-regular fa-bookmark mr-2"></i>
+        <button class="flex items-center hover:text-blue-500 focus:outline-none"
+            onclick="toggleSave({{ $post->id }}, this)">
+            <i class="{{ $isSaved ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark' }} mr-2"></i>
             <span>Save</span>
         </button>
     </div>
 </div>
+
+<script>
+    function toggleStar(postId, element) {
+        fetch(`/posts/${postId}/toggle-star`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'starred') {
+                    element.querySelector('i').classList.remove('fa-regular');
+                    element.querySelector('i').classList.add('fa-solid');
+                    element.querySelector('span').textContent = 'Unstar';
+                } else {
+                    element.querySelector('i').classList.remove('fa-solid');
+                    element.querySelector('i').classList.add('fa-regular');
+                    element.querySelector('span').textContent = 'Star';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function toggleSave(postId, element) {
+        fetch(`/posts/${postId}/toggle-save`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'saved') {
+                    element.querySelector('i').classList.remove('fa-regular');
+                    element.querySelector('i').classList.add('fa-solid');
+                    element.querySelector('span').textContent = 'Unsave';
+                } else {
+                    element.querySelector('i').classList.remove('fa-solid');
+                    element.querySelector('i').classList.add('fa-regular');
+                    element.querySelector('span').textContent = 'Save';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>

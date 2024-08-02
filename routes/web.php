@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Route;
 //Home page
 Route::get('/', [PostController::class, 'index']);
 
+//Show the form to create a new post
+Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
+
+//Store a new post
+Route::post('/posts', [PostController::class, 'store'])->middleware('auth');
+
+//Toggle star on a post
+Route::post('/posts/{post}/toggle-star', [PostController::class, 'toggleStar'])->middleware('auth');
+
+//Toggle save on a post
+Route::post('/posts/{post}/toggle-save', [PostController::class, 'toggleSave'])->middleware('auth');
+
 //All jobs
 Route::get('/jobs', [JobController::class, 'index']);
 

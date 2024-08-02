@@ -13,4 +13,12 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function stars()
+    {
+        return $this->belongsToMany(User::class, 'stars')->withTimestamps();
+    }
+    public function saves()
+    {
+        return $this->belongsToMany(User::class, 'saves')->withTimestamps();
+    }
 }

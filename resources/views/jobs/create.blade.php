@@ -66,7 +66,7 @@
                     Tags (Comma Separated)
                 </label>
                 <input type="text" class="border border-gray-200 rounded p-2 w-full" name="tags"
-                    placeholder="Example: Laravel, Backend, Postgres, etc" value="{{ old('tags') }}" />
+                    placeholder="Example: Laravel,Backend,Postgres, etc" value="{{ old('tags') }}" />
 
                 @error('tags')
                     <p class="text-red-500 text-sm mt-2">{{ $message }}</p>

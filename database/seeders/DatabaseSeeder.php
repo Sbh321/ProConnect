@@ -18,6 +18,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        User::factory()->create([
+            "name" => "Subham Bhandari",
+            "email" => "subham@gmail.com",
+            "password" => bcrypt("12345678"),
+        ]);
+
         $user = User::factory()->create([
             'name' => 'John Doe',
             'email' => 'doe@gmail.com',
@@ -31,7 +37,7 @@ class DatabaseSeeder extends Seeder
         );
 
         //seeding post table using factory
-        Post::factory(10)->create([
+        Post::factory(50)->create([
             'user_id' => $user->id,
         ]);
 

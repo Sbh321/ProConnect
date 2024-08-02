@@ -21,7 +21,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'status' => $this->faker->sentence(),
-            'star_count' => $this->faker->numberBetween(0, 100),
+            'hashtags' => 'post,proConnect,laravel',
         ];
     }
 }

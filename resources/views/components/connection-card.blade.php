@@ -1,4 +1,5 @@
-<div class="scrollable bg-white p-4 rounded-lg shadow-xl">
+<div x-data="{ scrollToTop() { this.$refs.scrollableContainer.scrollTop = 0 } }" x-init="scrollToTop" class="scrollable bg-white p-4 rounded-lg shadow-xl"
+    x-ref="scrollableContainer">
     <div>
         <h2 class="text-xl font-bold mb-4">New Followers</h2>
         <ul>
