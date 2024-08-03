@@ -17,6 +17,15 @@ Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth
 //Store a new post
 Route::post('/posts', [PostController::class, 'store'])->middleware('auth');
 
+//Show the form to edit a post
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->middleware('auth')->name('posts.edit');
+
+//Update a post
+Route::put('/posts/{post}', [PostController::class, 'update'])->middleware('auth');
+
+//Delete a post
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->middleware('auth')->name('posts.delete');
+
 //Toggle star on a post
 Route::post('/posts/{post}/toggle-star', [PostController::class, 'toggleStar'])->middleware('auth');
 

@@ -14,6 +14,20 @@
             <h2 class="text-lg font-semibold">{{ $post->user->name }}</h2>
             <p class="text-gray-500 text-sm">{{ $post->created_at->diffForHumans() }}</p>
         </div>
+        <div class="flex-1 flex justify-end">
+            @if (auth()->id() === $post->user_id)
+                <a href="{{ route('posts.edit', $post) }}" class="hover:underline mr-2"><i
+                        class="fa-solid fa-pen"></i></a>
+                <form action="{{ route('posts.delete', $post) }}" method="POST" class="inline-block">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="hover:underline focus:outline-none"><i
+                            class="fa-solid fa-trash "></i></button>
+                </form>
+            @else
+                <i class="fa-solid fa-ellipsis-h"></i>
+            @endif
+        </div>
     </div>
 
     <p class="{{ empty($post->hashtags) ? 'mb-4' : 'mb-2' }}">
@@ -24,8 +38,9 @@
         <x-post-tags :hashtagsCsv="$post->hashtags" />
     @endif
 
-    <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('images/no-post-image.jpg') }}" alt="Post Image"
-        class="rounded-lg mb-4 w-full object-cover" />
+    <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('images/no-post-image.jpg') }}"
+        alt="Post Image" class="rounded-lg mb-4 w-full max-h-[400px] object-cover" />
+
     <div class="flex justify-between text-gray-500 text-sm">
         <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">

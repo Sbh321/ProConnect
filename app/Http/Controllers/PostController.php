@@ -95,4 +95,48 @@ class PostController extends Controller
         }
     }
 
+    // Show the form to edit a post
+    public function edit(Post $post)
+    {
+        return view('posts.edit', [
+            'post' => $post,
+        ]);
+    }
+
+    // Update a post
+    public function update(Request $request, Post $post)
+    {
+        // Make sure logged in user is the owner of the post
+        if (auth()->id() !== $post->user_id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $formFields = $request->validate([
+            'status' => 'required',
+            'hashtags' => 'nullable',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $formFields['image'] = $request->file('image')->store('post_images', 'public');
+        }
+
+        $post->update($formFields);
+
+        return back()->with('message', 'Post updated!');
+    }
+
+    // Delete a post
+    public function destroy(Post $post)
+    {
+        // Make sure logged in user is the owner of the post
+        if (auth()->id() !== $post->user_id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $post->delete();
+
+        // return redirect()->route('profile', ['user' => auth()->id()])->with('message', 'Post deleted!');
+        return back()->with('message', 'Post deleted!');
+
+    }
 }
