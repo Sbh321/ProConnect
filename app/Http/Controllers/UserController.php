@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -75,8 +76,98 @@ class UserController extends Controller
     }
 
     // Show a single user profile
-    public function show()
+    public function show(User $user)
     {
-        return view('users.profile');
+        return view('users.profile', [
+            'user' => $user,
+            'posts' => Post::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(10)->get(),
+            'showFooter' => false,
+        ]);
+    }
+
+    // Show form to edit user profile
+    public function edit(User $user)
+    {
+        return view('users.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    // Update user profile
+    public function update(Request $request, User $user)
+    {
+        // Make sure logged in user is the owner of the profile
+        if (auth()->id() !== $user->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Validate the request
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+            'bio' => 'nullable',
+            'location' => 'nullable',
+            'education' => 'nullable',
+            'occupation' => 'nullable',
+        ]);
+
+        // This part ensures that the password is only updated if it was provided with validation
+        if ($request->password) {
+
+            $request->validate([
+                'password' => 'confirmed|min:8',
+            ]);
+
+            $formFields['password'] = $request->password;
+        }
+
+        // Store the avatar and banner if they were provided
+        if ($request->hasFile('avatar')) {
+            $formFields['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        if ($request->hasFile('banner')) {
+            $formFields['banner'] = $request->file('banner')->store('banners', 'public');
+        }
+
+        // Hash the password if it was provided
+        if (isset($formFields['password'])) {
+            $formFields['password'] = bcrypt($formFields['password']);
+        }
+
+        // Update the user
+        $user->update($formFields);
+
+        return redirect()->route('profile', ['user' => auth()->user()->id])->with('message', 'Profile Updated');
+
+    }
+
+    // Toggle follow on a user
+    public function toggleFollow(Request $request, User $user)
+    {
+        $authUser = $request->user();
+
+        // Check if the user is trying to follow themselves
+        if ($authUser->id === $user->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Cannot follow yourself',
+            ]);
+        }
+
+        // Toggle the follow/unfollow logic
+        if ($authUser->isFollowing($user)) {
+            $authUser->unfollow($user);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Unfollowed successfully.',
+            ]);
+        } else {
+            $authUser->follow($user);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Followed successfully.',
+            ]);
+        }
     }
 }

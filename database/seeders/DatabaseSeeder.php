@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\JobListing;
 use App\Models\Post;
-use App\Models\Profile;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -37,12 +36,7 @@ class DatabaseSeeder extends Seeder
         );
 
         //seeding post table using factory
-        Post::factory(15)->create([
-            'user_id' => $user->id,
-        ]);
-
-        //seeding profile table using factory
-        Profile::factory(10)->create([
+        Post::factory(50)->create([
             'user_id' => $user->id,
         ]);
 

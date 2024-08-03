@@ -1,10 +1,10 @@
 <div class="scrollable bg-white p-4 rounded-lg shadow-xl">
     @auth
-        <a href="/users/profile">
+        <a href="/users/{{ auth()->user()->id }}">
             <div class="flex items-center mb-4">
                 <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('images/no-profile.jpg') }}"
                     alt="Profile Picture" class="rounded-full mr-2 w-10" />
-                <span>Shubham Bhandari</span>
+                <span>{{ auth()->user()->name }}</span>
             </div>
         </a>
     @else

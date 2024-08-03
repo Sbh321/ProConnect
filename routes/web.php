@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 //Home page
 Route::get('/', [PostController::class, 'index']);
+
+//Lode more posts
 Route::get('/posts/load-more', [PostController::class, 'loadMorePosts'])->name('posts.loadMore');
 
 //Show the form to create a new post
@@ -61,4 +63,13 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 Route::post('/users/auth', [UserController::class, 'auth']);
 
 // Single user profile
-Route::get('/users/profile', [UserController::class, 'show'])->middleware('auth');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('profile');
+
+// Show form to edit user profile
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
+
+// Update user profile
+Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth');
+
+// Toggle follow on a user
+Route::post('/users/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware('auth');

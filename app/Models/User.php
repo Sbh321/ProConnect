@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,14 +44,14 @@ class User extends Authenticatable
         ];
     }
 
-    //Relationship to JobListing
+    // Relationship to JobListing
     public function jobListing()
     {
         return $this->hasMany(JobListing::class, 'user_id');
     }
 
-    //Relationship to Post
-    public function post()
+    // Relationship to Post
+    public function posts()
     {
         return $this->hasMany(Post::class, 'user_id');
     }
@@ -65,5 +64,53 @@ class User extends Authenticatable
     public function saves()
     {
         return $this->belongsToMany(Post::class, 'saves')->withTimestamps();
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follower::class, 'following_id');
+    }
+
+    // Define the following relationship
+    public function following()
+    {
+        return $this->hasMany(Follower::class, 'follower_id');
+    }
+
+    /**
+     * Check if the user is following the specified user.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('following_id', $user->id)->exists();
+    }
+
+    /**
+     * Follow the specified user.
+     *
+     * @param User $user
+     * @return void
+     */
+    public function follow(User $user)
+    {
+        if (!$this->isFollowing($user)) {
+            $this->following()->create([
+                'following_id' => $user->id,
+            ]);
+        }
+    }
+
+    /**
+     * Unfollow the specified user.
+     *
+     * @param User $user
+     * @return void
+     */
+    public function unfollow(User $user)
+    {
+        $this->following()->where('following_id', $user->id)->delete();
     }
 }

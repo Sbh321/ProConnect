@@ -57,7 +57,13 @@
                 <!-- Loading More Posts -->
                 <div id="load-more"></div>
 
-                <x-loader-card />
+                <!-- Loader and End Message -->
+                <div id="loader" class="hidden">
+                    <x-loader-card />
+                </div>
+                <div id="end-message" class="hidden">
+                    <p class="text-center text-gray-500 text-sm my-4">Oops, you have reached the end!</p>
+                </div>
             </div>
 
             <!-- Right Section -->
@@ -69,29 +75,48 @@
 
     <script>
         let skip = {{ $posts->count() }};
+        let loading = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             const scrollableContainer = document.querySelector('#post-container');
+            const loader = document.querySelector('#loader');
+            const endMessage = document.querySelector('#end-message');
 
             scrollableContainer.addEventListener('scroll', function() {
                 if (scrollableContainer.scrollTop + scrollableContainer.clientHeight >= scrollableContainer
-                    .scrollHeight) {
+                    .scrollHeight && !loading) {
                     loadMorePosts();
                 }
             });
-        });
 
-        function loadMorePosts() {
-            fetch(`{{ route('posts.loadMore') }}?skip=${skip}`, {
-                    method: 'GET',
-                })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('load-more').insertAdjacentHTML('beforebegin', data);
-                    skip += 5;
-                    console.log(skip);
-                })
-                .catch(error => console.error('Error:', error));
-        }
+            function loadMorePosts() {
+                loading = true; // Set loading state to true
+                loader.classList.remove('hidden'); // Show loader
+
+                fetch(`{{ route('posts.loadMore') }}?skip=${skip}`, {
+                        method: 'GET',
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data.trim() === '') {
+                            // No more posts to load
+                            loader.classList.add('hidden');
+                            endMessage.classList.remove('hidden'); // Show end message
+                            return;
+                        }
+                        document.getElementById('load-more').insertAdjacentHTML('beforebegin', data);
+                        skip += 10; // Adjust according to your posts per load
+                        console.log(skip);
+                        loading = false; // Reset loading state
+                        loader.classList.add('hidden'); // Hide loader
+                        endMessage.classList.add('hidden'); // Hide end message if more posts are loaded
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        loading = false; // Reset loading state on error
+                        loader.classList.add('hidden'); // Hide loader
+                    });
+            }
+        });
     </script>
 </x-layout>

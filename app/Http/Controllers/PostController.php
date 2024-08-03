@@ -12,7 +12,7 @@ class PostController extends Controller
     {
         return view('posts.index', [
             'showFooter' => false,
-            'posts' => Post::orderBy('created_at', 'desc')->take(5)->get(),
+            'posts' => Post::orderBy('created_at', 'desc')->take(10)->get(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class PostController extends Controller
         return view('posts.post-list', [
             'posts' => Post::orderBy('created_at', 'desc')
                 ->skip($request->skip)
-                ->take(5)
+                ->take(10)
                 ->get(),
         ]);
     }
@@ -41,7 +41,7 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-// Store a new post
+    // Store a new post
     public function store(Request $request)
     {
         $formFields = $request->validate([
