@@ -26,7 +26,7 @@
     <title>ProConnect | Find Developer Jobs & Projects</title>
     <style>
         .scrollable {
-            max-height: calc(100vh - 6rem);
+            /* max-height: calc(100vh - 6rem); */
             overflow-y: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -39,7 +39,7 @@
 </head>
 
 <body class="bg-blueGray-200">
-    <nav class="flex justify-between items-center mb-4">
+    <nav class="flex justify-between items-center">
         <div class="flex-1 flex items-center">
             <a href="/"><img class="w-24 ml-6 p-2" src="{{ asset('images/logo.png') }}" alt=""
                     class="logo" /></a>

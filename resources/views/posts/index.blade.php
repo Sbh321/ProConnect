@@ -1,6 +1,6 @@
 <x-layout :showFooter="false">
     <div class="container mx-auto">
-        <div class="flex flex-col lg:flex-row">
+        <div class="flex flex-col lg:flex-row" style="max-height: calc(89vh)">
             <!-- Left Section -->
             <div class="hidden lg:flex flex-col w-full lg:w-1/4 px-4 justify-between">
                 <x-side-card />
