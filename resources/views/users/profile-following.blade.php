@@ -130,8 +130,7 @@
                     <x-card>
                         <ul class="flex gap-4 md:block">
                             <a href="/users/{{ auth()->user()->id }}">
-                                <li
-                                    class="flex items-center mb-2 rounded-lg hover:bg-gray-200 bg-gray-200  cursor-pointer">
+                                <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
                                             viewBox="0 0 24 24">
@@ -151,7 +150,7 @@
                                 </li>
                             </a>
                             <a href="/users/{{ auth()->user()->id }}/following">
-                                <li class="flex items-center rounded-lg hover:bg-gray-200 cursor-pointer">
+                                <li class="flex items-center rounded-lg hover:bg-gray-200 bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <i class="fa-solid fa-users text-lg"></i>
                                     </div>
@@ -164,30 +163,17 @@
 
                 <div x-data="{ scrollToTop() { this.$refs.scrollableContainer.scrollTop = 0 } }" x-init="scrollToTop" x-ref="scrollableContainer"
                     class="w-full md:w-3/4 scrollable" id="post-container">
-                    <div class="container mx-auto">
-                        @if (count($posts) > 0)
-                            @foreach ($posts as $post)
-                                <x-post-card :post="$post" />
-                            @endforeach
-                            <p class="text-center text-gray-500 text-sm my-4">Oops, no more posts to show!</p>
-                        @else
-                            <div class="bg-white p-4 rounded-lg shadow-xl mb-4 mx-auto max-w-[500px]">
-                                <div class="flex items-center my-2">
-                                    <form method="GET" action="/posts/create" class="w-full flex items-center">
-                                        <input type="text" name="status" placeholder="Add a post status..."
-                                            class="w-full bg-gray-100 rounded-full py-2 px-4 outline-none mr-2" />
-                                        <div class="flex justify-end">
-                                            <button type="submit"
-                                                class="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600">
-                                                Create
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <p class="text-center text-gray-500 text-sm my-4">Oops, No posts to show!</p>
-                        @endif
-                    </div>
+                    <x-card>
+                        <div class="container mx-auto">
+                            @if ($followedUsers->isNotEmpty())
+                                @foreach ($followedUsers as $user)
+                                    <x-user-card :user="$user" />
+                                @endforeach
+                            @else
+                                <p>Not Following any one</p>
+                            @endif
+                        </div>
+                    </x-card>
                 </div>
             </div>
         </section>

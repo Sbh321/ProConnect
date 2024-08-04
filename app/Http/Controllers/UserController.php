@@ -75,13 +75,39 @@ class UserController extends Controller
         ])->onlyInput('email');
     }
 
-    // Show a single user profile
+    // Show a single user profile with posts
     public function show(User $user)
     {
         return view('users.profile', [
             'user' => $user,
             'posts' => Post::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(10)->get(),
             'showFooter' => false,
+        ]);
+    }
+
+    // Show a single user profile with followers
+    public function followers(User $user, )
+    {
+        // Get the users that are following the user
+        $followers = User::whereIn('id', $user->followers()->pluck('follower_id'))->get();
+
+        return view('users.profile-followers', [
+            'user' => $user,
+            'showFooter' => false,
+            'followers' => $followers,
+        ]);
+    }
+
+    // Show a single user profile with following
+    public function following(User $user)
+    {
+        // Get the users that the user is following
+        $followingUsers = $user->following()->pluck('following_id');
+
+        return view('users.profile-following', [
+            'user' => $user,
+            'showFooter' => false,
+            'followedUsers' => User::whereIn('id', $followingUsers)->get(),
         ]);
     }
 
