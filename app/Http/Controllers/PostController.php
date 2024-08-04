@@ -3,17 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     // Show Home page
-    public function index()
+    public function index(Request $request)
     {
-        return view('posts.index', [
-            'showFooter' => false,
-            'posts' => Post::orderBy('created_at', 'desc')->take(10)->get(),
-        ]);
+        if ($request->user()) {
+            // Get the current authenticated user
+            $authUser = $request->user();
+
+            // Get the users that the authenticated user is following
+            $followingUsers = $authUser->following()->pluck('following_id');
+
+            // Get the users that are following the authenticated user
+            $followers = User::whereIn('id', $authUser->followers()->pluck('follower_id'))->get();
+
+            // Get the users that the authenticated user is not following (suggested users)
+            $suggestedUsers = User::whereNotIn('id', $followingUsers)
+                ->where('id', '!=', $authUser->id)
+                ->get();
+
+            return view('posts.index', [
+                'showFooter' => false,
+                'posts' => Post::orderBy('created_at', 'desc')->take(10)->get(),
+                'followedUsers' => User::whereIn('id', $followingUsers)->get(),
+                'suggestedUsers' => $suggestedUsers,
+                'followers' => $followers,
+            ]);
+        } else {
+            return view('posts.index', [
+                'showFooter' => true,
+                'posts' => Post::orderBy('created_at', 'desc')->take(10)->get(),
+                'users' => User::orderBy('created_at', 'desc')->take(10)->get(),
+            ]);
+        }
     }
 
     // Load more posts
@@ -138,5 +164,14 @@ class PostController extends Controller
         // return redirect()->route('profile', ['user' => auth()->id()])->with('message', 'Post deleted!');
         return back()->with('message', 'Post deleted!');
 
+    }
+
+    //Search posts
+    public function search()
+    {
+        return view('posts.search', [
+            'posts' => Post::latest()->filter(request(['keyword', 'hashtag']))->get(),
+            // 'users' => User::latest()->filter(request(['keyword']))->get(),
+        ]);
     }
 }

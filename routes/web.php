@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Route;
 //Home page
 Route::get('/', [PostController::class, 'index']);
 
+//Search posts and hashtags
+Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search')->middleware('auth');
+
+//Search users
+Route::get('/users/search', [UserController::class, 'search'])->name('users.search')->middleware('auth');
+
 //Lode more posts
 Route::get('/posts/load-more', [PostController::class, 'loadMorePosts'])->name('posts.loadMore');
 

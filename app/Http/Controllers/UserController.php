@@ -170,4 +170,12 @@ class UserController extends Controller
             ]);
         }
     }
+
+    //Search users
+    public function search()
+    {
+        return view('users.search', [
+            'users' => User::latest()->filter(request(['keyword']))->get(),
+        ]);
+    }
 }

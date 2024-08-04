@@ -38,8 +38,10 @@
         <x-post-tags :hashtagsCsv="$post->hashtags" />
     @endif
 
-    <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('images/no-post-image.jpg') }}"
-        alt="Post Image" class="rounded-lg mb-4 w-full max-h-[400px] object-cover" />
+    @if (!empty($post->image))
+        <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image"
+            class="w-full rounded-lg my-4 aspect-video object-cover" />
+    @endif
 
     <div class="flex justify-between text-gray-500 text-sm">
         <div class="flex items-center">

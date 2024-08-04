@@ -10,6 +10,14 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function scopeFilter($query, array $filters)
+    {
+        if ($filters['keyword'] ?? false) {
+            $query
+                ->where('name', 'like', '%' . request('keyword') . '%');
+        }
+    }
+
     /**
      * The attributes that are mass assignable.
      *

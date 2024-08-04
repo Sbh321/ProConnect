@@ -42,7 +42,7 @@
             <div class="mt-8">
                 <p>
                     Dont's have an account?
-                    <a href="/register" class="text-blue-500l">Register</a>
+                    <a href="/register" class="text-blue-500">Register</a>
                 </p>
             </div>
         </form>

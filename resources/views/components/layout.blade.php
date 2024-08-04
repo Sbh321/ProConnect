@@ -40,32 +40,77 @@
 
 <body class="bg-blueGray-200">
     <nav class="flex justify-between items-center mb-4">
-        <a href="/"><img class="w-24 ml-6 p-2" src="{{ asset('images/logo.png') }}" alt=""
-                class="logo" /></a>
-        <ul class="flex space-x-6 mr-6 text-lg">
+        <div class="flex-1 flex items-center">
+            <a href="/"><img class="w-24 ml-6 p-2" src="{{ asset('images/logo.png') }}" alt=""
+                    class="logo" /></a>
+
             @auth
-                <li>
+                <div class="lg:block hidden ml-2">
                     <span class="font-bold uppercase">
-                        Welcome {{ auth()->user()->name }}
+                        Welcome
+                        {{ auth()->user()->name }}
                     </span>
+                </div>
+            @endauth
+        </div>
+
+        {{-- lg:mr-52 ml-24 --}}
+        <div class="items-center hidden md:flex flex-1 justify-center">
+            <form method="GET" action="/posts/search" class="flex items-center">
+                @php
+                    // Get the current keyword from the query string
+                    $keyword = request()->query('keyword', '');
+                @endphp
+                <input type="text" name="keyword" placeholder="Search.."
+                    class="flex-1 bg-gray-100 rounded-full py-2 px-4 outline-none mr-2" value="{{ $keyword }}" />
+                <div class="flex justify-end">
+                    <button type="submit" class="">
+                        <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <ul class="flex space-x-6 mr-6 text-lg items-center flex-1 justify-end">
+            @auth
+                <li class="lg:hidden">
+                    {{-- <a href="/jobs/manage" class="hover:text-blue-500 flex justify-center items-center"><i
+                            class="fa-solid fa-gear mr-1"></i>
+                        <span class="hidden lg:block">Profile</span></a> --}}
+                    <div class="w-12 h-12 rounded-full bg-black flex justify-center items-center">
+                        <a href="/users/{{ auth()->user()->id }}">
+                            <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('images/no-profile.jpg') }}"
+                                alt="Profile Picture" class="rounded-full w-10 h-10 border-4 border-blueGray-200" />
+                        </a>
+                    </div>
                 </li>
-                <li>
-                    <a href="/jobs/manage" class="hover:text-blue-500"><i class="fa-solid fa-gear"></i>
-                        Manage Listings</a>
+                <li class="lg:hidden">
+                    <a href="/jobs" class="hover:text-blue-500 flex justify-center items-center"><i
+                            class="fa-solid fa-code text-lg"></i>
+                        <span class="hidden lg:block">Projects</span></a>
+                </li>
+                <li class="lg:hidden">
+                    <a href="/jobs/manage" class="hover:text-blue-500 flex justify-center items-center"><i
+                            class="fa-solid fa-gear mr-1"></i>
+                        <span class="hidden lg:block">Manage</span></a>
                 </li>
                 <li>
                     <form action="/logout" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="hover:text-blue-500"><i class="fa-solid fa-door-closed"></i>
-                            Logout</button>
+                        <button type="submit" class="hover:text-blue-500 flex justify-center items-center"><i
+                                class="fa-solid fa-door-closed"></i>
+                            <span class="hidden md:block ml-2">Logout</span></button>
                     </form>
                 @else
                 <li>
-                    <a href="/register" class="hover:text-blue-500"><i class="fa-solid fa-user-plus"></i> Register</a>
+                    <a href="/register" class="hover:text-blue-500 flex justify-center items-center"><i
+                            class="fa-solid fa-user-plus"></i>
+                        <span class="hidden md:block ml-2">Register</span></a>
                 </li>
                 <li>
-                    <a href="/login" class="hover:text-blue-500"><i class="fa-solid fa-arrow-right-to-bracket"></i>
-                        Login</a>
+                    <a href="/login" class="hover:text-blue-500 flex justify-center items-center"><i
+                            class="fa-solid fa-arrow-right-to-bracket"></i>
+                        <span class="hidden md:block ml-2">Login</span></a>
                 </li>
             @endauth
         </ul>
@@ -77,16 +122,11 @@
 
     @if (!isset($showFooter) || $showFooter)
         <footer
-            class="relative bottom-0 left-0 w-full flex items-center justify-start font-bold bg-blue-400 text-white h-24 mt-24 opacity-90 md:justify-center">
+            class="w-full flex items-center justify-start font-bold bg-blue-400 text-white h-24 mt-14 opacity-90 md:justify-center">
             <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
-
-            <a href="/jobs/create" class="absolute top-1/3 right-10 bg-black text-white py-2 px-5">Post Job</a>
         </footer>
     @endif
-
     <x-flash-message />
-
-    <script></script>
 </body>
 
 </html>

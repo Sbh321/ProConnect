@@ -1,5 +1,5 @@
-<x-layout>
-    <x-card class="p-10 max-w-lg mx-auto mt-24 shadow-xl rounded-lg">
+<x-layout :showFooter="false">
+    <x-card class="p-10 max-w-lg mx-auto m-24 shadow-xl rounded-lg">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">
                 Edit Post
