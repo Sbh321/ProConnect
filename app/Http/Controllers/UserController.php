@@ -85,6 +85,16 @@ class UserController extends Controller
         ]);
     }
 
+    // Show a single user profile with saved posts
+    public function saved(User $user)
+    {
+        return view('users.profile-saved', [
+            'user' => $user,
+            'posts' => $user->saves()->orderBy('created_at', 'desc')->get(),
+            'showFooter' => false,
+        ]);
+    }
+
     // Show a single user profile with followers
     public function followers(User $user, )
     {

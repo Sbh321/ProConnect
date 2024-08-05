@@ -125,11 +125,11 @@
             </div>
         </section>
         <section class="pt-1 bg-blueGray-200">
-            <div class="px-4 md:flex md:flex-row md:gap-4">
+            <div class="px-4 md:flex md:flex-row md:gap-4" style="max-height: calc(89vh)">
                 <div class="md:w-1/4 md:mb-0 mb-4">
                     <x-card>
                         <ul class="flex gap-4 md:block">
-                            <a href="/users/{{ auth()->user()->id }}">
+                            <a href="/users/{{ $user->id }}">
                                 <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
@@ -141,7 +141,19 @@
                                     <span class="ml-2">Posts</span>
                                 </li>
                             </a>
-                            <a href="/users/{{ auth()->user()->id }}/followers">
+                            <a href="/users/{{ $user->id }}/saved">
+                                <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
+                                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                                        </svg><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
+                                            viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M3 21V3h18v18zm15-4H6v1.5h12zM6 15.5h12V14H6zM6 12h12V6H6zm0 5v1.5zm0-1.5V14zM6 12V6zm0 2v-2zm0 3v-1.5z" />
+                                        </svg>
+                                    </div>
+                                    <span class="ml-2">Saved Posts</span>
+                                </li>
+                            </a>
+                            <a href="/users/{{ $user->id }}/followers">
                                 <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <i class="fa-solid fa-user-group text-lg"></i>
@@ -149,7 +161,7 @@
                                     <span class="ml-2">Followers</span>
                                 </li>
                             </a>
-                            <a href="/users/{{ auth()->user()->id }}/following">
+                            <a href="/users/{{ $user->id }}/following">
                                 <li class="flex items-center rounded-lg hover:bg-gray-200 bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <i class="fa-solid fa-users text-lg"></i>

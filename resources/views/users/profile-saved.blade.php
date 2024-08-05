@@ -130,8 +130,7 @@
                     <x-card>
                         <ul class="flex gap-4 md:block">
                             <a href="/users/{{ $user->id }}">
-                                <li
-                                    class="flex items-center mb-2 rounded-lg hover:bg-gray-200 bg-gray-200  cursor-pointer">
+                                <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
                                             viewBox="0 0 24 24">
@@ -143,7 +142,8 @@
                                 </li>
                             </a>
                             <a href="/users/{{ $user->id }}/saved">
-                                <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
+                                <li
+                                    class="flex items-center mb-2 rounded-lg hover:bg-gray-200 bg-gray-200  cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         </svg><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
                                             viewBox="0 0 24 24">
@@ -183,23 +183,7 @@
                             @endforeach
                             <p class="text-center text-gray-500 text-sm my-4">Oops, no more posts to show!</p>
                         @else
-                            @if (auth()->user()->id === $user->id)
-                                <div class="bg-white p-4 rounded-lg shadow-xl mb-4 mx-auto max-w-[500px]">
-                                    <div class="flex items-center my-2">
-                                        <form method="GET" action="/posts/create" class="w-full flex items-center">
-                                            <input type="text" name="status" placeholder="Add a post status..."
-                                                class="w-full bg-gray-100 rounded-full py-2 px-4 outline-none mr-2" />
-                                            <div class="flex justify-end">
-                                                <button type="submit"
-                                                    class="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600">
-                                                    Create
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endif
-                            <p class="text-center text-gray-500 text-sm my-4">Oops, No posts to show!</p>
+                            <p class="text-center text-gray-500 text-sm my-4">No posts saved!</p>
                         @endif
                     </div>
                 </div>

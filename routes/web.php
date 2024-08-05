@@ -78,13 +78,16 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 Route::post('/users/auth', [UserController::class, 'auth']);
 
 // Single user profile with posts
-Route::get('/users/{user}', [UserController::class, 'show'])->name('profile')->middleware('auth');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('profile');
+
+//Single user profile with saved posts
+Route::get('/users/{user}/saved', [UserController::class, 'saved'])->name('saved');
 
 // Single user profile with followers
-Route::get('/users/{user}/followers', [UserController::class, 'followers'])->name('followers')->middleware('auth');
+Route::get('/users/{user}/followers', [UserController::class, 'followers'])->name('followers');
 
 // Single user profile with following
-Route::get('/users/{user}/following', [UserController::class, 'following'])->name('following')->middleware('auth');
+Route::get('/users/{user}/following', [UserController::class, 'following'])->name('following');
 
 // Show form to edit user profile
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
