@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -173,5 +174,21 @@ class PostController extends Controller
             'posts' => Post::latest()->filter(request(['keyword', 'hashtag']))->get(),
             // 'users' => User::latest()->filter(request(['keyword']))->get(),
         ]);
+    }
+
+    //Store a new comment on a post
+    public function storeComment(Request $request, Post $post)
+    {
+        $formFields = $request->validate([
+            'body' => 'required',
+        ]);
+
+        $formFields['user_id'] = auth()->id();
+
+        $formFields['post_id'] = $post->id;
+
+        Comment::create($formFields);
+
+        return back()->with('message', 'Comment added!');
     }
 }

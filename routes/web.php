@@ -38,6 +38,9 @@ Route::post('/posts/{post}/toggle-star', [PostController::class, 'toggleStar'])-
 //Toggle save on a post
 Route::post('/posts/{post}/toggle-save', [PostController::class, 'toggleSave'])->middleware('auth');
 
+//Store a new comment on a post
+Route::post('/posts/{post}/comments', [PostController::class, 'storeComment'])->middleware('auth');
+
 //All jobs
 Route::get('/jobs', [JobController::class, 'index']);
 

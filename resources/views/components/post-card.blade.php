@@ -3,9 +3,42 @@
 @php
     $isStarred = $post->stars()->where('user_id', auth()->id())->exists();
     $isSaved = $post->saves()->where('user_id', auth()->id())->exists();
+
+    $comments = [
+        [
+            'user' => 'Alice Johnson',
+            'content' => 'This is an awesome post! Thanks for sharing.',
+            'created_at' => now()->subMinutes(5)->diffForHumans(),
+        ],
+        [
+            'user' => 'Bob Smith',
+            'content' => 'I completely agree with your thoughts!',
+            'created_at' => now()->subHours(1)->diffForHumans(),
+        ],
+        [
+            'user' => 'Bob Smith',
+            'content' => 'I completely agree with your thoughts!',
+            'created_at' => now()->subHours(1)->diffForHumans(),
+        ],
+        [
+            'user' => 'Bob Smith',
+            'content' => 'I completely agree with your thoughts!',
+            'created_at' => now()->subHours(1)->diffForHumans(),
+        ],
+        [
+            'user' => 'Bob Smith',
+            'content' => 'I completely agree with your thoughts!',
+            'created_at' => now()->subHours(1)->diffForHumans(),
+        ],
+        [
+            'user' => 'Charlie Brown',
+            'content' => 'Can you provide more information on this topic?',
+            'created_at' => now()->subDays(1)->diffForHumans(),
+        ],
+    ];
 @endphp
 
-<div class="bg-white p-4 rounded-lg shadow-xl mb-4">
+<div x-data="{ showComments: false }" class="bg-white p-4 rounded-lg shadow-xl mb-4 relative">
     <!-- Post Header and Content -->
     <div class="flex items-center mb-4">
         <img src="{{ $post->user->image ? asset('storage/' . $post->user->image) : asset('images/no-profile.jpg') }}"
@@ -70,7 +103,8 @@
             </span>
         </div>
         <div>
-            <span class="">667 comments</span>
+            <span class="">{{ $post->comments->count() }}
+                {{ $post->comments->count() == 1 ? 'Comment' : 'Comments' }}</span>
         </div>
     </div>
     <hr class="my-2" />
@@ -80,7 +114,7 @@
             <i class="{{ $isStarred ? 'fa-solid fa-star' : 'fa-regular fa-star' }} mr-2"></i>
             <span>{{ $isStarred ? 'Unstar' : 'Star' }}</span>
         </button>
-        <button class="flex items-center hover:text-blue-500 focus:outline-none w-24">
+        <button @click="showComments = true" class="flex items-center hover:text-blue-500 focus:outline-none w-24">
             <i class="fa-regular fa-comments mr-2"></i>
             <span>Comment</span>
         </button>
@@ -89,6 +123,65 @@
             <i class="{{ $isSaved ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark' }} mr-2"></i>
             <span>Save</span>
         </button>
+    </div>
+
+    <!-- Comment Overlay -->
+    <div x-show="showComments" x-cloak
+        class="fixed inset-0 bg-gray-600 bg-opacity-70 flex justify-center items-center z-10">
+        <div @click.stop @click.away="showComments = false"
+            class="relative bg-white p-8 rounded-lg w-11/12 md:w-2/3 lg:w-1/2 max-h-[100vh] overflow-y-auto">
+            <button @click="showComments = false"
+                class="absolute top-1 right-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <h3 class="text-lg font-semibold mb-4">Comments</h3>
+
+            <div class="scrollable max-h-[55vh]">
+                @if ($comments === [])
+                    <p class="text-gray-500 text-center">No comments yet.</p>
+                @else
+                    <ul class="space-y-4">
+                        @foreach ($comments as $comment)
+                            <li
+                                class="flex items-center bg-gray-200 rounded-xl px-4 py-2 transition-all cursor-pointer hover:bg-gray-300">
+                                <img src="{{ asset('images/no-profile.jpg') }}" alt="Profile Picture"
+                                    class="rounded-full w-8 h-8 mr-2">
+                                <div>
+                                    <p class="font-semibold">{{ $comment['user'] }}</p>
+                                    <p class="text-gray-500 text-sm">{{ $comment['created_at'] }}</p>
+                                    <p>{{ $comment['content'] }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                {{-- <!-- for dynamic for DB -->
+                @foreach ($post->comments as $comment)
+                    <li class="flex">
+                        <img src="{{ asset('images/no-profile.jpg') }}" alt="Profile Picture"
+                            class="rounded-full w-8 h-8 mr-2">
+                        <div>
+                            <p class="font-semibold">{{ $comment->user }}</p>
+                            <p class="text-gray-500 text-sm">{{ $comment->created_at }}</p>
+                            <p>{{ $comment->content }}</p>
+                        </div>
+                    </li>
+                @endforeach --}}
+            </div>
+
+            <!-- Comment Form -->
+            <form action="/posts/{{ $post->id }}/comments" method="POST" class="mt-6">
+                @csrf
+                <div class="flex items-center">
+                    <input type="text" name="body" class="w-full border-gray-300 rounded-lg shadow-sm"
+                        placeholder="Add a comment" required>
+                    <button type="submit"
+                        class="bg-blue-500 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 focus:outline-none">Post</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

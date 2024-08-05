@@ -35,6 +35,10 @@
         .scrollable::-webkit-scrollbar {
             display: none;
         }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -97,9 +101,11 @@
                 <li>
                     <form action="/logout" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="hover:text-blue-500 flex justify-center items-center"><i
-                                class="fa-solid fa-door-closed"></i>
-                            <span class="hidden md:block ml-2">Logout</span></button>
+                        <button type="submit"
+                            class="hover:text-blue-500 flex justify-center items-center focus:outline-none">
+                            <i class="fa-solid fa-door-closed"></i>
+                            <span class="hidden md:block ml-2">Logout</span>
+                        </button>
                     </form>
                 @else
                 <li>
