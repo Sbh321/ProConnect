@@ -97,6 +97,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the comments for the user.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Follow the specified user.
      *
      * @param User $user
