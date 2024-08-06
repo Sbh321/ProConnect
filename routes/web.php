@@ -20,6 +20,9 @@ Route::get('/posts/load-more', [PostController::class, 'loadMorePosts'])->name('
 //Show the form to create a new post
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth');
 
+//Manage posts
+Route::get('/posts/manage', [PostController::class, 'manage'])->middleware('auth');
+
 //Store a new post
 Route::post('/posts', [PostController::class, 'store'])->middleware('auth');
 
@@ -37,6 +40,9 @@ Route::post('/posts/{post}/toggle-star', [PostController::class, 'toggleStar'])-
 
 //Toggle save on a post
 Route::post('/posts/{post}/toggle-save', [PostController::class, 'toggleSave'])->middleware('auth');
+
+//Show comments on a post
+Route::get('/posts/{post}/comments', [PostController::class, 'comments'])->name('posts.comments');
 
 //Store a new comment on a post
 Route::post('/posts/{post}/comments', [PostController::class, 'storeComment'])->middleware('auth');

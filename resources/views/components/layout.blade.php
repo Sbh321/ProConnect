@@ -93,10 +93,21 @@
                             class="fa-solid fa-code text-lg"></i>
                         <span class="hidden lg:block">Projects</span></a>
                 </li>
-                <li class="lg:hidden">
-                    <a href="/jobs/manage" class="hover:text-blue-500 flex justify-center items-center"><i
-                            class="fa-solid fa-gear mr-1"></i>
-                        <span class="hidden lg:block">Manage</span></a>
+                <li class="relative">
+                    <div class="hover:text-blue-500 flex justify-center items-center cursor-pointer"
+                        onclick="toggleDropdown()">
+                        <i class="fa-solid fa-gear mr-1"></i>
+                        <span class="hidden lg:block select-none">Manage</span>
+                    </div>
+                    <!-- Dropdown menu -->
+                    <ul id="dropdown" class="hidden absolute bg-white shadow-md rounded-md mt-2 w-48 right-[0px] z-50">
+                        <a href="/posts/manage">
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Manage Posts</li>
+                        </a>
+                        <a href="/jobs/manage">
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Manage Listings</li>
+                        </a>
+                    </ul>
                 </li>
                 <li>
                     <form action="/logout" method="POST" class="inline">
@@ -133,6 +144,21 @@
         </footer>
     @endif
     <x-flash-message />
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('dropdown');
+            const liElement = document.querySelector('li.relative');
+            if (!liElement.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 
 </html>

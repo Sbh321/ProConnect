@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="lg:mr-4 p-3 text-center">
                                         <span
-                                            class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">89</span><span
+                                            class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{{ $user->comments->count() }}</span><span
                                             class="text-sm text-blueGray-400">Comments</span>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
             <div class="px-4 md:flex md:flex-row md:gap-4" style="max-height: calc(89vh)">
                 <div class="md:w-1/4 md:mb-0 mb-4">
                     <x-card>
-                        <ul class="flex gap-4 md:block">
+                        <ul class="flex gap-4 md:block justify-between">
                             <a href="/users/{{ $user->id }}">
                                 <li class="flex items-center mb-2 rounded-lg hover:bg-gray-200 cursor-pointer">
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
@@ -138,7 +138,7 @@
                                                 d="M4 20V4h16v16zm1.77-6.038h12.46v-1.116H5.77zm0 2.692h12.46v-.885H5.77z" />
                                         </svg>
                                     </div>
-                                    <span class="ml-2">Posts</span>
+                                    <span class="ml-2 md:block hidden">Posts</span>
                                 </li>
                             </a>
                             <a href="/users/{{ $user->id }}/saved">
@@ -151,7 +151,7 @@
                                                 d="M3 21V3h18v18zm15-4H6v1.5h12zM6 15.5h12V14H6zM6 12h12V6H6zm0 5v1.5zm0-1.5V14zM6 12V6zm0 2v-2zm0 3v-1.5z" />
                                         </svg>
                                     </div>
-                                    <span class="ml-2">Saved Posts</span>
+                                    <span class="ml-2 md:block hidden">Saved Posts</span>
                                 </li>
                             </a>
                             <a href="/users/{{ $user->id }}/followers">
@@ -159,7 +159,7 @@
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <i class="fa-solid fa-user-group text-lg"></i>
                                     </div>
-                                    <span class="ml-2">Followers</span>
+                                    <span class="ml-2 md:block hidden">Followers</span>
                                 </li>
                             </a>
                             <a href="/users/{{ $user->id }}/following">
@@ -167,7 +167,7 @@
                                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                                         <i class="fa-solid fa-users text-lg"></i>
                                     </div>
-                                    <span class="ml-2">Following</span>
+                                    <span class="ml-2 md:block hidden">Following</span>
                                 </li>
                             </a>
                         </ul>

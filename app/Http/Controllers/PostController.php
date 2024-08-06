@@ -191,4 +191,64 @@ class PostController extends Controller
 
         return back()->with('message', 'Comment added!');
     }
+
+    //Show comments on a post
+    public function comments(Post $post)
+    {
+        // $comments = [
+        //     [
+        //         'user' => 'Alice Johnson',
+        //         'content' => 'This is an awesome post! Thanks for sharing.',
+        //         'created_at' => now()->subMinutes(5)->diffForHumans(),
+        //     ],
+        //     [
+        //         'user' => 'Bob Smith',
+        //         'content' => 'I completely agree with your thoughts!',
+        //         'created_at' => now()->subHours(1)->diffForHumans(),
+        //     ],
+        //     [
+        //         'user' => 'Bob Smith',
+        //         'content' => 'I completely agree with your thoughts!',
+        //         'created_at' => now()->subHours(1)->diffForHumans(),
+        //     ],
+        //     [
+        //         'user' => 'Bob Smith',
+        //         'content' => 'I completely agree with your thoughts!',
+        //         'created_at' => now()->subHours(1)->diffForHumans(),
+        //     ],
+        //     [
+        //         'user' => 'Bob Smith',
+        //         'content' => 'I completely agree with your thoughts!',
+        //         'created_at' => now()->subHours(1)->diffForHumans(),
+        //     ],
+        //     [
+        //         'user' => 'Charlie Brown',
+        //         'content' => 'Can you provide more information on this topic?',
+        //         'created_at' => now()->subDays(1)->diffForHumans(),
+        //     ],
+        // ];
+
+        // Fetch comments for the given post
+        $comments = $post->comments()->with('user')->get()->map(function ($comment) {
+            return [
+                'user' => $comment->user->name,
+                'body' => $comment->body,
+                'created_at' => $comment->created_at->diffForHumans(),
+            ];
+        });
+
+        return response()->json(['comments' => $comments]);
+    }
+
+    //Manage posts
+    public function manage(Request $request)
+    {
+        $user = $request->user();
+        $posts = $user->posts()->paginate(8);
+
+        return view('posts.manage', [
+            'posts' => $posts,
+        ]);
+
+    }
 }
