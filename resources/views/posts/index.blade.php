@@ -124,7 +124,7 @@
                             return;
                         }
                         document.getElementById('load-more').insertAdjacentHTML('beforebegin', data);
-                        skip += 10; // Adjust according to your posts per load
+                        skip += 10;
                         console.log(skip);
                         loading = false; // Reset loading state
                         loader.classList.add('hidden'); // Hide loader

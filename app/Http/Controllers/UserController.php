@@ -132,7 +132,6 @@ class UserController extends Controller
     // Update user profile
     public function update(Request $request, User $user)
     {
-        // Make sure logged in user is the owner of the profile
         if (auth()->id() !== $user->id) {
             abort(403, 'Unauthorized');
         }
@@ -157,7 +156,6 @@ class UserController extends Controller
             $formFields['password'] = $request->password;
         }
 
-        // Store the avatar and banner if they were provided
         if ($request->hasFile('avatar')) {
             $formFields['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }

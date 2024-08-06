@@ -15,13 +15,13 @@ class Follower extends Model
     // Mass assignable attributes
     protected $fillable = ['follower_id', 'following_id'];
 
-    // Define the relationship between Follower and User for the follower
+    // relationship between Follower and User for the follower
     public function follower()
     {
         return $this->belongsTo(User::class, 'follower_id');
     }
 
-    // Define the relationship between Follower and User for the following
+    // relationship between Follower and User for the following
     public function following()
     {
         return $this->belongsTo(User::class, 'following_id');

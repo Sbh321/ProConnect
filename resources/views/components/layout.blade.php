@@ -78,9 +78,6 @@
         <ul class="flex space-x-6 mr-6 text-lg items-center flex-1 justify-end">
             @auth
                 <li class="lg:hidden">
-                    {{-- <a href="/jobs/manage" class="hover:text-blue-500 flex justify-center items-center"><i
-                            class="fa-solid fa-gear mr-1"></i>
-                        <span class="hidden lg:block">Profile</span></a> --}}
                     <div class="w-12 h-12 rounded-full bg-black flex justify-center items-center">
                         <a href="/users/{{ auth()->user()->id }}">
                             <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('images/no-profile.jpg') }}"
@@ -99,6 +96,7 @@
                         <i class="fa-solid fa-gear mr-1"></i>
                         <span class="hidden lg:block select-none">Manage</span>
                     </div>
+
                     <!-- Dropdown menu -->
                     <ul id="dropdown" class="hidden absolute bg-white shadow-md rounded-md mt-2 w-48 right-[0px] z-50">
                         <a href="/posts/manage">

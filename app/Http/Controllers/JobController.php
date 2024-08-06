@@ -66,7 +66,6 @@ class JobController extends Controller
     // Update a job
     public function update(Request $request, JobListing $jobListing)
     {
-        //Make sure logged in user is the owner of the job
         if (auth()->id() !== $jobListing->user_id) {
             abort(403, 'Unauthorized');
         }
@@ -93,7 +92,6 @@ class JobController extends Controller
     // Delete a job
     public function destroy(JobListing $jobListing)
     {
-        //Make sure logged in user is the owner of the job
         if (auth()->id() !== $jobListing->user_id) {
             abort(403, 'Unauthorized');
         }

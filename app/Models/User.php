@@ -79,7 +79,6 @@ class User extends Authenticatable
         return $this->hasMany(Follower::class, 'following_id');
     }
 
-    // Define the following relationship
     public function following()
     {
         return $this->hasMany(Follower::class, 'follower_id');
@@ -87,9 +86,6 @@ class User extends Authenticatable
 
     /**
      * Check if the user is following the specified user.
-     *
-     * @param User $user
-     * @return bool
      */
     public function isFollowing(User $user)
     {
@@ -106,9 +102,6 @@ class User extends Authenticatable
 
     /**
      * Follow the specified user.
-     *
-     * @param User $user
-     * @return void
      */
     public function follow(User $user)
     {
@@ -121,9 +114,6 @@ class User extends Authenticatable
 
     /**
      * Unfollow the specified user.
-     *
-     * @param User $user
-     * @return void
      */
     public function unfollow(User $user)
     {

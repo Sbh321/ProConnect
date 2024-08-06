@@ -8,7 +8,6 @@
 @endphp
 
 <div class="bg-white p-4 rounded-lg shadow-xl mb-4 relative">
-    <!-- Post Header and Content -->
     <div class="flex items-center mb-4">
         <img src="{{ $post->user->image ? asset('storage/' . $post->user->image) : asset('images/no-profile.jpg') }}"
             alt="image" class="rounded-full mr-2 w-10">
@@ -111,7 +110,6 @@
                     <div id="cont"></div>
                 </div>
 
-                <!-- Comment Form -->
                 <form action="/posts/{{ $post->id }}/comments" method="POST" class="mt-6">
                     @csrf
                     <div class="flex items-center">
@@ -187,7 +185,6 @@
                 return response.json();
             })
             .then(data => {
-                // Assuming `data.comments` is an array of comments
                 const comments = data.comments;
                 console.log(comments);
                 showComments(comments);
@@ -213,7 +210,7 @@
                     'flex items-center bg-gray-200 rounded-xl px-4 py-2 transition-all cursor-pointer hover:bg-gray-300';
 
                 const img = document.createElement('img');
-                img.src = 'images/no-profile.jpg'; // Replace with actual image source if needed
+                img.src = 'images/no-profile.jpg';
                 img.alt = 'Profile Picture';
                 img.className = 'rounded-full w-8 h-8 mr-2';
 
@@ -221,27 +218,24 @@
 
                 const userName = document.createElement('p');
                 userName.className = 'font-semibold';
-                userName.innerText = comment.user; // Display the user's name
+                userName.innerText = comment.user;
 
                 const createdAt = document.createElement('p');
                 createdAt.className = 'text-gray-500 text-sm';
-                createdAt.innerText = comment.created_at; // Display the creation date
+                createdAt.innerText = comment.created_at;
 
                 const body = document.createElement('p');
-                body.innerText = comment.body; // Display the comment body
+                body.innerText = comment.body;
 
-                // Append the created elements to the list item
                 div.appendChild(userName);
                 div.appendChild(createdAt);
                 div.appendChild(body);
                 li.appendChild(img);
                 li.appendChild(div);
 
-                // Append the list item to the list
                 ul.appendChild(li);
             });
 
-            // Append the list to the container
             cont.appendChild(ul);
         } else {
             // Clear the existing content

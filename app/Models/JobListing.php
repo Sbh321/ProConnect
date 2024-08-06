@@ -36,7 +36,7 @@ class JobListing extends Model
         }
     }
 
-    // Relationship to User
+    // Get user that posted the job
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

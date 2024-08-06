@@ -46,14 +46,6 @@ class PostController extends Controller
     // Load more posts
     public function loadMorePosts(Request $request)
     {
-        // if ($request->ajax()) {
-        //     $posts = Post::orderBy('created_at', 'desc')
-        //         ->skip($request->skip)
-        //         ->take(10)
-        //         ->get();
-
-        //     return view('posts.post-list', compact('posts'))->render();
-        // }
         return view('posts.post-list', [
             'posts' => Post::orderBy('created_at', 'desc')
                 ->skip($request->skip)
@@ -133,7 +125,6 @@ class PostController extends Controller
     // Update a post
     public function update(Request $request, Post $post)
     {
-        // Make sure logged in user is the owner of the post
         if (auth()->id() !== $post->user_id) {
             abort(403, 'Unauthorized');
         }
@@ -155,14 +146,12 @@ class PostController extends Controller
     // Delete a post
     public function destroy(Post $post)
     {
-        // Make sure logged in user is the owner of the post
         if (auth()->id() !== $post->user_id) {
             abort(403, 'Unauthorized');
         }
 
         $post->delete();
 
-        // return redirect()->route('profile', ['user' => auth()->id()])->with('message', 'Post deleted!');
         return back()->with('message', 'Post deleted!');
 
     }
@@ -172,7 +161,6 @@ class PostController extends Controller
     {
         return view('posts.search', [
             'posts' => Post::latest()->filter(request(['keyword', 'hashtag']))->get(),
-            // 'users' => User::latest()->filter(request(['keyword']))->get(),
         ]);
     }
 
@@ -228,7 +216,6 @@ class PostController extends Controller
         //     ],
         // ];
 
-        // Fetch comments for the given post
         $comments = $post->comments()->with('user')->get()->map(function ($comment) {
             return [
                 'user' => $comment->user->name,
@@ -249,6 +236,5 @@ class PostController extends Controller
         return view('posts.manage', [
             'posts' => $posts,
         ]);
-
     }
 }

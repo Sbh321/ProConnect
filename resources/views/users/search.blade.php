@@ -6,6 +6,7 @@
                     @php
                         // Get the current keyword from the query string
                         $keyword = request()->query('keyword', '');
+
                         // Append keyword to URLs if it exists
                         $postSearchUrl = '/posts/search' . ($keyword ? '?keyword=' . urlencode($keyword) : '');
                         $userSearchUrl = '/users/search' . ($keyword ? '?keyword=' . urlencode($keyword) : '');
