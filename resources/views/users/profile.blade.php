@@ -183,7 +183,7 @@
                             @endforeach
                             <p class="text-center text-gray-500 text-sm my-4">Oops, no more posts to show!</p>
                         @else
-                            @if (auth()->user()->id === $user->id)
+                            @if (auth()->user() && auth()->user()->id === $user->id)
                                 <div class="bg-white p-4 rounded-lg shadow-xl mb-4 mx-auto max-w-[500px]">
                                     <div class="flex items-center my-2">
                                         <form method="GET" action="/posts/create" class="w-full flex items-center">

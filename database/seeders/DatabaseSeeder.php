@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(50)->create();
 
-        User::factory()->create([
+        $user0 = User::factory()->create([
             "name" => "Subham Bhandari",
             "email" => "subham@gmail.com",
             "password" => bcrypt("12345678"),
         ]);
 
-        $user = User::factory()->create([
+        $user1 = User::factory()->create([
             'name' => 'John Doe',
             'email' => 'doe@gmail.com',
         ]);
@@ -31,13 +31,22 @@ class DatabaseSeeder extends Seeder
         //seeding job_listing table using factory
         JobListing::factory(10)->create(
             [
-                'user_id' => $user->id,
+                'user_id' => $user1->id,
+            ]
+        );
+
+        JobListing::factory(10)->create(
+            [
+                'user_id' => $user0->id,
             ]
         );
 
         //seeding post table using factory
-        Post::factory(50)->create([
-            'user_id' => $user->id,
+        Post::factory(25)->create([
+            'user_id' => $user1->id,
+        ]);
+        Post::factory(25)->create([
+            'user_id' => $user0->id,
         ]);
 
         // User::factory()->create([

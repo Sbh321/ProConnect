@@ -4,7 +4,7 @@
             this.$refs.scrollableContainer.scrollTop = 0;
         }
     }" x-init="scrollToTop" class="scrollable bg-white p-4 rounded-lg shadow-xl"
-        x-ref="scrollableContainer">
+        x-ref="scrollableContainer" style="max-height: calc(89vh)">
 
         <!-- Followers Section -->
         @if ($followers->isNotEmpty())
@@ -66,7 +66,7 @@
             this.$refs.scrollableContainer.scrollTop = 0;
         }
     }" x-init="scrollToTop" class="scrollable bg-white p-4 rounded-lg shadow-xl"
-        x-ref="scrollableContainer">
+        x-ref="scrollableContainer" style="max-height: calc(89vh)">
         <div>
             <h2 class="text-xl font-bold mb-4">Explore Users</h2>
             <ul>
