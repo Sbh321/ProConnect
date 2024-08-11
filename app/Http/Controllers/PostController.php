@@ -221,6 +221,7 @@ class PostController extends Controller
                 'user' => $comment->user->name,
                 'body' => $comment->body,
                 'created_at' => $comment->created_at->diffForHumans(),
+                'user_image' => $comment->user->avatar,
             ];
         });
 

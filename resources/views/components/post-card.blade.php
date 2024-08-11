@@ -173,10 +173,9 @@
             .catch(error => console.error('Error:', error));
     }
 
-    let cont = document.getElementById('cont');
+    var cont = document.getElementById('cont');
 
     function fetchComments(postId) {
-        console.log(postId);
         fetch(`/posts/${postId}/comments`)
             .then(response => {
                 if (!response.ok) {
@@ -186,7 +185,6 @@
             })
             .then(data => {
                 const comments = data.comments;
-                console.log(comments);
                 showComments(comments);
             })
             .catch(error => console.error('Error:', error));
@@ -210,7 +208,7 @@
                     'flex items-center bg-gray-200 rounded-xl px-4 py-2 transition-all cursor-pointer hover:bg-gray-300';
 
                 const img = document.createElement('img');
-                img.src = 'images/no-profile.jpg';
+                img.src = comment.user_image ? `storage/${comment.user_image}` : 'images/no-profile.jpg';
                 img.alt = 'Profile Picture';
                 img.className = 'rounded-full w-8 h-8 mr-2';
 
