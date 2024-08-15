@@ -38,32 +38,47 @@ To get a local copy up and running, follow these simple steps:
 3. **Set up your environment variables:**
 
 -   Duplicate the .env.example file and rename it to .env.
--   Update the .env file with your database and mail configurations.
 
     ```
     cp .env.example .env
+    ```
+
+4. **Generate Application Key**
+
+    ```
     php artisan key:generate
     ```
 
-4. **Run migrations and seed the database:**
+5. **Update the .env file with your database and mail configurations.**
+
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_database_username
+    DB_PASSWORD=your_database_password
+    ```
+
+6. **Run migrations and seed the database:**
 
     ```
     php artisan migrate --seed
     ```
 
-5. **Compile assets:**
+7. **Compile assets:**
 
     ```
     npm run dev
     ```
 
-6. **Run the application:**
+8. **Run the application:**
 
     ```
     php artisan serve
     ```
 
-7. **Access the application:**
+9. **Access the application:**
 
 -   Open your web browser and go to url displayed on your terminal when application is serving.
 
