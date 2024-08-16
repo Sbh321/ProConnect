@@ -24,8 +24,8 @@ To get a local copy up and running, follow these simple steps:
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/Sbh321/social-media-job-app.git
-    cd social-media-job-app
+    git clone https://github.com/Sbh321/ProConnect.git
+    cd ProConnect
     ```
 
 2. **Install dependencies:**
