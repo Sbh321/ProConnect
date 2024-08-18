@@ -17,7 +17,7 @@ class UserController extends Controller
         return view('users.register');
     }
 
-    // Store a new user
+    // Store a new user (register)
     public function store(Request $request)
     {
         // Validate the request
@@ -243,6 +243,38 @@ class UserController extends Controller
     public function addUser()
     {
         return view('users.admin.add-user');
+    }
+
+    //Store user by admin
+    public function storeUser(Request $request)
+    {
+        if (!Auth::user()->isAdmin) {
+            abort(403, 'Unauthorized');
+        }
+
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => 'required|min:8',
+            'bio' => 'nullable',
+            'location' => 'nullable',
+            'education' => 'nullable',
+            'occupation' => 'nullable',
+        ]);
+
+        $formFields['password'] = bcrypt($formFields['password']);
+
+        if ($request->hasFile('avatar')) {
+            $formFields['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        if ($request->hasFile('banner')) {
+            $formFields['banner'] = $request->file('banner')->store('banners', 'public');
+        }
+
+        User::create($formFields);
+
+        return redirect()->route('usersDashboard')->with('message', 'User Created');
     }
 
     //Delete user by admin only

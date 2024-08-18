@@ -66,5 +66,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/jobs', [UserController::class, 'jobsDashboard'])->name('jobsDashboard');
     Route::get('/users', [UserController::class, 'usersDashboard'])->name('usersDashboard');
     Route::get('/users/add', [UserController::class, 'addUser'])->name('addUser');
+    Route::post('/users', [UserController::class, 'storeUser'])->name('storeUser');
     Route::delete('/users/{user}', [UserController::class, 'destroyUser'])->name('deleteUser');
 });
