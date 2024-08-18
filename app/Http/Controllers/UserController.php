@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobListing;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -220,5 +221,40 @@ class UserController extends Controller
         return view('users.admin.posts', [
             'posts' => Post::latest()->paginate(10),
         ]);
+    }
+
+    //View admin dashboard with all job listings
+    public function jobsDashboard()
+    {
+        return view('users.admin.jobs', [
+            'jobs' => JobListing::latest()->paginate(10),
+        ]);
+    }
+
+    //View admin dashboard with all users
+    public function usersDashboard()
+    {
+        return view('users.admin.users', [
+            'users' => User::latest()->paginate(10),
+        ]);
+    }
+
+    //Show form to add user by admin
+    public function addUser()
+    {
+        return view('users.admin.add-user');
+    }
+
+    //Delete user by admin only
+    public function destroyUser(User $user)
+    {
+        // Check if the authenticated user is an admin
+        if (!Auth::user()->isAdmin) {
+            abort(403, 'Unauthorized');
+        }
+
+        $user->delete();
+
+        return redirect()->route('usersDashboard')->with('message', 'User Deleted');
     }
 }

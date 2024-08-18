@@ -107,5 +107,17 @@ Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth
 // Toggle follow on a user
 Route::post('/users/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware('auth');
 
-//View admin dashboard
-Route::get('/admin', [UserController::class, 'dashboard'])->middleware('auth', 'admin')->name('dashboard');
+//View admin dashboard with all posts
+Route::get('/admin/posts', [UserController::class, 'dashboard'])->middleware('auth', 'admin')->name('dashboard');
+
+//View admin dashboard with all job listings
+Route::get('/admin/jobs', [UserController::class, 'jobsDashboard'])->middleware('auth', 'admin')->name('jobsDashboard');
+
+//View admin dashboard with all users
+Route::get('/admin/users', [UserController::class, 'usersDashboard'])->middleware('auth', 'admin')->name('usersDashboard');
+
+//Show form to add user by admin
+Route::get('/admin/users/add', [UserController::class, 'addUser'])->middleware('auth', 'admin')->name('addUser');
+
+// Delete user by admin
+Route::delete('/admin/users/{user}', [UserController::class, 'destroyUser'])->middleware('auth', 'admin')->name('deleteUser');

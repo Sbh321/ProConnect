@@ -126,7 +126,7 @@ class PostController extends Controller
     // Update a post
     public function update(Request $request, Post $post)
     {
-        if (Auth::id() !== $post->user_id) {
+        if (Auth::id() !== $post->user_id && !Auth::user()->isAdmin) {
             abort(403, 'Unauthorized');
         }
 
@@ -147,7 +147,7 @@ class PostController extends Controller
     // Delete a post
     public function destroy(Post $post)
     {
-        if (Auth::id() !== $post->user_id) {
+        if (Auth::id() !== $post->user_id && !Auth::user()->isAdmin) {
             abort(403, 'Unauthorized');
         }
 

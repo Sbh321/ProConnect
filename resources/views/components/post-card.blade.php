@@ -16,7 +16,7 @@
             <p class="text-gray-500 text-sm">{{ $post->created_at->diffForHumans() }}</p>
         </div>
         <div class="flex-1 flex justify-end">
-            @if (auth()->id() === $post->user_id)
+            @if (auth()->id() === $post->user_id || auth()->user()->isAdmin)
                 <a href="{{ route('posts.edit', $post) }}" class="hover:underline mr-2"><i
                         class="fa-solid fa-pen"></i></a>
                 <form action="{{ route('posts.delete', $post) }}" method="POST" class="inline-block">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JobListing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class JobController extends Controller
@@ -48,7 +49,7 @@ class JobController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        $formFields['user_id'] = auth()->id();
+        $formFields['user_id'] = Auth::id();
 
         JobListing::create($formFields);
 
@@ -66,7 +67,7 @@ class JobController extends Controller
     // Update a job
     public function update(Request $request, JobListing $jobListing)
     {
-        if (auth()->id() !== $jobListing->user_id) {
+        if (Auth::id() !== $jobListing->user_id && !Auth::user()->isAdmin) {
             abort(403, 'Unauthorized');
         }
 
@@ -92,7 +93,7 @@ class JobController extends Controller
     // Delete a job
     public function destroy(JobListing $jobListing)
     {
-        if (auth()->id() !== $jobListing->user_id) {
+        if (Auth::id() !== $jobListing->user_id && !Auth::user()->isAdmin) {
             abort(403, 'Unauthorized');
         }
 

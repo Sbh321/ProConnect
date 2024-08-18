@@ -107,7 +107,7 @@
                         </a>
                         @auth
                             @if (auth()->user()->isAdmin)
-                                <a href="/admin">
+                                <a href="/admin/posts">
                                     <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
                                 </a>
                             @endif
