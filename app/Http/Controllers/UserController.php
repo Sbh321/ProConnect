@@ -212,4 +212,10 @@ class UserController extends Controller
             'users' => User::latest()->filter(request(['keyword']))->get(),
         ]);
     }
+
+    //View admin dashboard
+    public function admin()
+    {
+        return view('users.admin');
+    }
 }

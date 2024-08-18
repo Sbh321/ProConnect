@@ -106,3 +106,6 @@ Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth
 
 // Toggle follow on a user
 Route::post('/users/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware('auth');
+
+//View admin dashboard
+Route::get('/admin', [UserController::class, 'admin'])->middleware('auth',);

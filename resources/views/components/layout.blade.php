@@ -105,6 +105,13 @@
                         <a href="/jobs/manage">
                             <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Manage Listings</li>
                         </a>
+                        @auth
+                            @if (auth()->user()->isAdmin)
+                                <a href="/admin">
+                                    <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
+                                </a>
+                            @endif
+                        @endauth
                     </ul>
                 </li>
                 <li>
