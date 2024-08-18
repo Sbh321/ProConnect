@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -32,7 +33,7 @@ class UserController extends Controller
         $user = User::create($formFields);
 
         // Log the user in
-        auth()->login($user);
+        Auth::login($user);
 
         return redirect('/')->with('message', 'User Created and Logged In');
     }
@@ -40,7 +41,7 @@ class UserController extends Controller
     // Log the user out
     public function logout(Request $request)
     {
-        auth()->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -64,7 +65,7 @@ class UserController extends Controller
         ]);
 
         // Attempt to log the user in
-        if (auth()->attempt($formFields)) {
+        if (Auth::attempt($formFields)) {
             $request->session()->regenerate();
 
             return redirect('/')->with('message', 'Logged In');
@@ -132,7 +133,7 @@ class UserController extends Controller
     // Update user profile
     public function update(Request $request, User $user)
     {
-        if (auth()->id() !== $user->id) {
+        if (Auth::id() !== $user->id) {
             abort(403, 'Unauthorized');
         }
 
@@ -172,7 +173,7 @@ class UserController extends Controller
         // Update the user
         $user->update($formFields);
 
-        return redirect()->route('profile', ['user' => auth()->user()->id])->with('message', 'Profile Updated');
+        return redirect()->route('profile', ['user' => Auth::user()->id])->with('message', 'Profile Updated');
 
     }
 
@@ -213,9 +214,11 @@ class UserController extends Controller
         ]);
     }
 
-    //View admin dashboard
-    public function admin()
+    //View admin dashboard with all posts
+    public function dashboard()
     {
-        return view('users.admin');
+        return view('users.admin.posts', [
+            'posts' => Post::latest()->paginate(10),
+        ]);
     }
 }

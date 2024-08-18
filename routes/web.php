@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Home page
-Route::get('/', [PostController::class, 'index']);
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 //Search posts and hashtags
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search')->middleware('auth');
@@ -108,4 +108,4 @@ Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth
 Route::post('/users/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware('auth');
 
 //View admin dashboard
-Route::get('/admin', [UserController::class, 'admin'])->middleware('auth',);
+Route::get('/admin', [UserController::class, 'dashboard'])->middleware('auth', 'admin')->name('dashboard');

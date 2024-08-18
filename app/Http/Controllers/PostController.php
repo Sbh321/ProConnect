@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -75,7 +76,7 @@ class PostController extends Controller
             $formFields['hashtags'] = $request->input('hashtags');
         }
 
-        $formFields['user_id'] = auth()->id();
+        $formFields['user_id'] = Auth::id();
 
         Post::create($formFields);
 
@@ -85,7 +86,7 @@ class PostController extends Controller
     // Toggle star on a post
     public function toggleStar(Post $post)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($post->stars()->where('user_id', $user->id)->exists()) {
             // Unstar the post
@@ -101,7 +102,7 @@ class PostController extends Controller
     //Toggle save on a post
     public function toggleSave(Post $post)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($post->saves()->where('user_id', $user->id)->exists()) {
             // Unsave the post
@@ -125,7 +126,7 @@ class PostController extends Controller
     // Update a post
     public function update(Request $request, Post $post)
     {
-        if (auth()->id() !== $post->user_id) {
+        if (Auth::id() !== $post->user_id) {
             abort(403, 'Unauthorized');
         }
 
@@ -146,7 +147,7 @@ class PostController extends Controller
     // Delete a post
     public function destroy(Post $post)
     {
-        if (auth()->id() !== $post->user_id) {
+        if (Auth::id() !== $post->user_id) {
             abort(403, 'Unauthorized');
         }
 
@@ -171,7 +172,7 @@ class PostController extends Controller
             'body' => 'required',
         ]);
 
-        $formFields['user_id'] = auth()->id();
+        $formFields['user_id'] = Auth::id();
 
         $formFields['post_id'] = $post->id;
 
