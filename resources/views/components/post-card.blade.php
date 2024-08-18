@@ -12,22 +12,27 @@
         <img src="{{ $post->user->image ? asset('storage/' . $post->user->image) : asset('images/no-profile.jpg') }}"
             alt="image" class="rounded-full mr-2 w-10">
         <div>
-            <h2 class="text-lg font-semibold">{{ $post->user->name }}</h2>
+            <a href="/users/{{ $post->user_id }}" class="hover:underline">
+                <h2 class="text-lg font-semibold">{{ $post->user->name }}</h2>
+            </a>
             <p class="text-gray-500 text-sm">{{ $post->created_at->diffForHumans() }}</p>
         </div>
         <div class="flex-1 flex justify-end">
-            @if (auth()->id() === $post->user_id || auth()->user()->isAdmin)
-                <a href="{{ route('posts.edit', $post) }}" class="hover:underline mr-2"><i
-                        class="fa-solid fa-pen"></i></a>
+            @if (auth()->check() && (auth()->id() === $post->user_id || auth()->user()->isAdmin))
+                <a href="{{ route('posts.edit', $post) }}" class="hover:underline mr-2">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
                 <form action="{{ route('posts.delete', $post) }}" method="POST" class="inline-block">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="hover:underline focus:outline-none"><i
-                            class="fa-solid fa-trash "></i></button>
+                    <button type="submit" class="hover:underline focus:outline-none">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </form>
             @else
                 <i class="fa-solid fa-ellipsis-h"></i>
             @endif
+
         </div>
     </div>
 
