@@ -36,7 +36,7 @@
                 <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center">
                     <i class="fa-solid fa-code text-blue-500 text-lg"></i>
                 </div>
-                <span class="ml-2">Projects</span>
+                <span class="ml-2">Gigs</span>
             </li>
         </a>
         <x-add-post />
