@@ -28,6 +28,17 @@
     </script>
     <title>ProConnect | Find Developer Jobs & Projects</title>
     <style>
+        /* Ensure the layout fills the screen and main takes remaining height */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
         .scrollable {
             /* max-height: calc(100vh - 6rem); */
             overflow-y: auto;
@@ -65,14 +76,13 @@
         <div class="items-center hidden md:flex flex-1 justify-center">
             <form method="GET" action="/posts/search" class="flex items-center">
                 @php
-                    // Get the current keyword from the query string
                     $keyword = request()->query('keyword', '');
                 @endphp
                 <input type="text" name="keyword" placeholder="Search.."
                     class="flex-1 bg-gray-100 rounded-full py-2 px-4 outline-none mr-2 border border-black"
                     value="{{ $keyword }}" />
                 <div class="flex justify-end">
-                    <button type="submit" class="">
+                    <button type="submit">
                         <i class="fa-solid fa-magnifying-glass text-2xl"></i>
                     </button>
                 </div>
@@ -149,7 +159,7 @@
     @if (!isset($showFooter) || $showFooter)
         <footer
             class="w-full flex items-center justify-start font-bold bg-blue-400 text-white h-24 mt-14 opacity-90 md:justify-center">
-            <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
+            <p class="ml-2">Copyright &copy; {{ date('Y') }}, All Rights reserved</p>
         </footer>
     @endif
     <x-flash-message />
