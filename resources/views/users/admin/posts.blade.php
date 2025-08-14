@@ -1,5 +1,5 @@
 <x-layout>
-    <x-card class="p-10">
+    <x-card class="p-10 mx-4 my-2">
         <header>
             <h1 class="text-3xl text-center font-bold my-6 uppercase">
                 Manage Posts
@@ -7,7 +7,7 @@
             <div class="mb-4">
                 <a href="/posts/create"
                     class="rounded-lg bg-black text-white py-2 px-5 hover:bg-white hover:text-black border-2 hover:border-black border-blueGray transition-all">Add
-                    Post</a>
+                    Pot</a>
             </div>
         </header>
 

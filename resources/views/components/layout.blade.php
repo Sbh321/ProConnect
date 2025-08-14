@@ -5,13 +5,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="icon" href="{{ asset('images/favicon.ico') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+
     <script src="//unpkg.com/alpinejs" defer></script>
     @vite('resources/css/app.css')
+
     <script>
         tailwind.config = {
             theme: {
@@ -66,7 +69,8 @@
                     $keyword = request()->query('keyword', '');
                 @endphp
                 <input type="text" name="keyword" placeholder="Search.."
-                    class="flex-1 bg-gray-100 rounded-full py-2 px-4 outline-none mr-2" value="{{ $keyword }}" />
+                    class="flex-1 bg-gray-100 rounded-full py-2 px-4 outline-none mr-2 border border-black"
+                    value="{{ $keyword }}" />
                 <div class="flex justify-end">
                     <button type="submit" class="">
                         <i class="fa-solid fa-magnifying-glass text-2xl"></i>

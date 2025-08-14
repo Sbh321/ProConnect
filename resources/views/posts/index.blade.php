@@ -26,13 +26,13 @@
 
                 @auth
                     <div class="bg-white p-4 rounded-lg shadow-xl mb-4">
-                        <div class="flex items-center my-2">
+                        <div class="flex items-center my-2 gap-4">
                             <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('images/no-profile.jpg') }}"
-                                alt="Profile Picture" class="rounded-full mr-2 w-12 h-12" />
-                            <form method="POST" action="/posts" class="w-full flex items-center">
+                                alt="Profile Picture" class="rounded-full w-12 h-12" />
+                            <form method="POST" action="/posts" class="w-full flex items-center gap-4">
                                 @csrf
                                 <input type="text" name="status" placeholder="Add a quick status..."
-                                    class="w-full bg-gray-100 rounded-full py-2 px-4 outline-none mr-2" />
+                                    class="w-full bg-gray-100 rounded-full py-2 px-4 outline-none  border border-black" />
                                 <div class="flex justify-end">
                                     <button type="submit"
                                         class="bg-blue-500 text-white h-10 py-2 px-6 shadow-xl rounded-full hover:bg-blue-600">

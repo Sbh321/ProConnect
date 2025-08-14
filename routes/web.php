@@ -5,19 +5,13 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Public Routes
-Route::get('/', [PostController::class, 'index'])->name('home');
-Route::get('/jobs', [JobController::class, 'index']);
-Route::get('/jobs/{jobListing}', [JobController::class, 'show']);
-Route::get('/users/{user}', [UserController::class, 'show'])->name('profile');
-Route::get('/posts/load-more', [PostController::class, 'loadMorePosts'])->name('posts.loadMore');
-
-// Authentication Routes
+// Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/register', [UserController::class, 'create'])->name('register');
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/login', [UserController::class, 'login'])->name('login');
     Route::post('/users/auth', [UserController::class, 'auth']);
+    Route::get('/manage', [JobController::class, 'manage'])->name('jobs.manage');
 });
 
 // Authenticated Routes
@@ -34,6 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/{post}/toggle-save', [PostController::class, 'toggleSave']);
         Route::get('/{post}/comments', [PostController::class, 'comments'])->name('posts.comments');
         Route::post('/{post}/comments', [PostController::class, 'storeComment']);
+        Route::get('/manage', [PostController::class, 'manage'])->name('posts.manage');
     });
 
     // Jobs Routes
@@ -69,3 +64,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/users', [UserController::class, 'storeUser'])->name('storeUser');
     Route::delete('/users/{user}', [UserController::class, 'destroyUser'])->name('deleteUser');
 });
+
+// Public Routes
+Route::get('/', [PostController::class, 'index'])->name('home');
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{jobListing}', [JobController::class, 'show']);
+Route::get('/users/{user}', [UserController::class, 'show'])->name('profile');
+Route::get('/posts/load-more', [PostController::class, 'loadMorePosts'])->name('posts.loadMore');
