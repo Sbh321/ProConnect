@@ -173,7 +173,8 @@
         window.addEventListener('click', function(e) {
             const dropdown = document.getElementById('dropdown');
             const liElement = document.querySelector('li.relative');
-            if (!liElement.contains(e.target)) {
+
+            if (liElement && !liElement.contains(e.target)) {
                 dropdown.classList.add('hidden');
             }
         });

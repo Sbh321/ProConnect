@@ -118,7 +118,7 @@
                 <form action="/posts/{{ $post->id }}/comments" method="POST" class="mt-6">
                     @csrf
                     <div class="flex items-center">
-                        <input type="text" name="body" class="w-full border-gray-300 rounded-lg shadow-sm"
+                        <input type="text" name="body" class="w-full border-gray-300 rounded-lg shadow-sm h-10 px-2"
                             placeholder="Add a comment" required>
                         <button type="submit"
                             class="bg-blue-500 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 focus:outline-none">Post</button>
