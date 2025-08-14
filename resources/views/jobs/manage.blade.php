@@ -2,7 +2,7 @@
     <x-card class="p-10 mx-4 my-2">
         <header>
             <h1 class="text-3xl text-center font-bold my-6 uppercase">
-                Manage Jobs Listings
+                Manage Gigs Listings
             </h1>
             <div class="mb-4">
                 <a href="/jobs/create"

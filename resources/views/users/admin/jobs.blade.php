@@ -2,12 +2,12 @@
     <x-card class="p-10">
         <header>
             <h1 class="text-3xl text-center font-bold my-6 uppercase">
-                Manage Jobs Listings
+                Manage Gigs Listings
             </h1>
             <div class="mb-4">
                 <a href="/jobs/create"
                     class="rounded-lg bg-black text-white py-2 px-5 hover:bg-white hover:text-black border-2 hover:border-black border-blueGray transition-all">Post
-                    Job</a>
+                    Gig</a>
             </div>
         </header>
 
