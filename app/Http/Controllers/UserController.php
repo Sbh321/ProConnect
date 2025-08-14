@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\JobListing;
@@ -22,9 +21,17 @@ class UserController extends Controller
     {
         // Validate the request
         $formFields = $request->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => 'required|confirmed|min:8',
+            'name'     => ['required', 'min:3', 'max:255'],
+            'email'    => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => [
+                'required',
+                'string',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+            ],
+        ], [
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
 
         // Hash the password
@@ -61,8 +68,15 @@ class UserController extends Controller
     {
         // Validate the request
         $formFields = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'email'    => 'required|email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+            ],
+        ], [
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
 
         // Attempt to log the user in
@@ -81,8 +95,8 @@ class UserController extends Controller
     public function show(User $user)
     {
         return view('users.profile', [
-            'user' => $user,
-            'posts' => Post::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(10)->get(),
+            'user'       => $user,
+            'posts'      => Post::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(10)->get(),
             'showFooter' => false,
         ]);
     }
@@ -91,8 +105,8 @@ class UserController extends Controller
     public function saved(User $user)
     {
         return view('users.profile-saved', [
-            'user' => $user,
-            'posts' => $user->saves()->orderBy('created_at', 'desc')->get(),
+            'user'       => $user,
+            'posts'      => $user->saves()->orderBy('created_at', 'desc')->get(),
             'showFooter' => false,
         ]);
     }
@@ -104,9 +118,9 @@ class UserController extends Controller
         $followers = User::whereIn('id', $user->followers()->pluck('follower_id'))->get();
 
         return view('users.profile-followers', [
-            'user' => $user,
+            'user'       => $user,
             'showFooter' => false,
-            'followers' => $followers,
+            'followers'  => $followers,
         ]);
     }
 
@@ -117,8 +131,8 @@ class UserController extends Controller
         $followingUsers = $user->following()->pluck('following_id');
 
         return view('users.profile-following', [
-            'user' => $user,
-            'showFooter' => false,
+            'user'          => $user,
+            'showFooter'    => false,
             'followedUsers' => User::whereIn('id', $followingUsers)->get(),
         ]);
     }
@@ -140,11 +154,11 @@ class UserController extends Controller
 
         // Validate the request
         $formFields = $request->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
-            'bio' => 'nullable',
-            'location' => 'nullable',
-            'education' => 'nullable',
+            'name'       => ['required', 'min:3', 'max:255'],
+            'email'      => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+            'bio'        => 'nullable',
+            'location'   => 'nullable',
+            'education'  => 'nullable',
             'occupation' => 'nullable',
         ]);
 
@@ -186,7 +200,7 @@ class UserController extends Controller
         // Check if the user is trying to follow themselves
         if ($authUser->id === $user->id) {
             return response()->json([
-                'status' => 'error',
+                'status'  => 'error',
                 'message' => 'Cannot follow yourself',
             ]);
         }
@@ -195,13 +209,13 @@ class UserController extends Controller
         if ($authUser->isFollowing($user)) {
             $authUser->unfollow($user);
             return response()->json([
-                'status' => 'success',
+                'status'  => 'success',
                 'message' => 'Unfollowed successfully.',
             ]);
         } else {
             $authUser->follow($user);
             return response()->json([
-                'status' => 'success',
+                'status'  => 'success',
                 'message' => 'Followed successfully.',
             ]);
         }
@@ -248,17 +262,17 @@ class UserController extends Controller
     //Store user by admin
     public function storeUser(Request $request)
     {
-        if (!Auth::user()->isAdmin) {
+        if (! Auth::user()->isAdmin) {
             abort(403, 'Unauthorized');
         }
 
         $formFields = $request->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => 'required|min:8',
-            'bio' => 'nullable',
-            'location' => 'nullable',
-            'education' => 'nullable',
+            'name'       => ['required', 'min:3', 'max:255'],
+            'email'      => ['required', 'email', Rule::unique('users', 'email')],
+            'password'   => 'required|min:8',
+            'bio'        => 'nullable',
+            'location'   => 'nullable',
+            'education'  => 'nullable',
             'occupation' => 'nullable',
         ]);
 
@@ -281,7 +295,7 @@ class UserController extends Controller
     public function destroyUser(User $user)
     {
         // Check if the authenticated user is an admin
-        if (!Auth::user()->isAdmin) {
+        if (! Auth::user()->isAdmin) {
             abort(403, 'Unauthorized');
         }
 
