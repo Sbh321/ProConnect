@@ -7,7 +7,7 @@
             <div class="mb-4">
                 <a href="/posts/create"
                     class="rounded-lg bg-black text-white py-2 px-5 hover:bg-white hover:text-black border-2 hover:border-black border-blueGray transition-all">Add
-                    Pot</a>
+                    Post</a>
             </div>
         </header>
 
