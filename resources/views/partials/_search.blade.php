@@ -11,7 +11,7 @@
             </button>
             <a href="/jobs/create"
                 class="rounded-lg bg-black text-white py-2 px-5 hover:bg-white hover:text-black border-2 hover:border-black border-blueGray transition-all">Post
-                Gig</a>
+                Gigs</a>
         </div>
     </div>
 </form>
